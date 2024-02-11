@@ -1,0 +1,41 @@
+version: '3'
+
+networks:
+  datastream:
+
+volumes:
+  mysql:
+
+services:
+  db:
+    image: mariadb:latest
+    volumes:
+      - mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password # replace with your password
+      MYSQL_DATABASE: website
+      MYSQL_USER: user  # replace with your username
+      MYSQL_PASSWORD: password  # replace with your password
+    ports:
+      - "3306:3306"
+    networks:
+      - datastream
+    healthcheck:
+      # test: ["CMD-SHELL", "mariadb -u${MYSQL_USER} -p${MYSQL_PASSWORD} -e use ${MYSQL_DATABASE}"]
+      test: ["CMD-SHELL", "echo ${MYSQL_USER} ${MYSQL_DATABASE}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - datastream
