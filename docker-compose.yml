@@ -31,9 +31,9 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: python.Dockerfile
     ports:
-      - "3000:3000"
+      - "8050:8050"
     depends_on:
       db:
         condition: service_healthy
