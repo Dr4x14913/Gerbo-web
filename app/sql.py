@@ -2,6 +2,10 @@
 import pip
 from sys import stderr
 
+MYSQL_USER     = 'user'
+MYSQL_PASSWORD = 'password'
+MYSQL_DATABASE = 'website'
+
 try:
     import mysql.connector
 except ModuleNotFoundError as e:

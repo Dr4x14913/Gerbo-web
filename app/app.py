@@ -1,22 +1,17 @@
 import sys
 sys.path.extend(["pages","."])
 import dash
-from sql import Sql
+from sql import *
 from navbar import get_navbar
 from dash import dcc
 from dash import html
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
-
+from login_manager import get_current_user
 
 #--------------------------------------------------------------------------------------------------------
 #-- SQL init
 #--------------------------------------------------------------------------------------------------------
-
-MYSQL_USER     = 'user'
-MYSQL_PASSWORD = 'password'
-MYSQL_DATABASE = 'website'
-
 #Establish the connection to MariaDB
 db = Sql(MYSQL_DATABASE, DB_HOST='db', DB_USER=MYSQL_USER, DB_PASS=MYSQL_PASSWORD)
 print("Connection successful!")
@@ -25,7 +20,7 @@ print("Connection successful!")
 db.insert("""
 CREATE TABLE IF NOT EXISTS `users` (
     `id` INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    `username` VARCHAR(30) NOT NULL,
+    `username` VARCHAR(30) NOT NULL UNIQUE,
     `password` VARCHAR(100) NOT NULL,
     `email` VARCHAR(50),
     `registration_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -51,6 +46,15 @@ app.layout = html.Div([
     # content will be here
 ], id='app-container')
 
+@app.callback(
+    Output("user-display", "children"),
+    [Input("user-display", "value")],   # Triggering element is the number of times this component has been clicked, not the input values
+    # prevent_initial_call=True
+)
+def c(n_clicks):
+    # if n_clicks is not None:  # If 'submit' hasn't been clicked yet
+    #     return f"Log as: {get_current_user()}"
+    return f"Log as: {get_current_user()}"
 #--------------------------------------------------------------------------------------------------------
 #-- MAIN
 #--------------------------------------------------------------------------------------------------------
