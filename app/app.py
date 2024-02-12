@@ -1,3 +1,5 @@
+import sys
+sys.path.extend(["pages","."])
 import dash
 from sql import Sql
 from navbar import get_navbar
