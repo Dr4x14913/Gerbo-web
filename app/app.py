@@ -1,4 +1,5 @@
 import dash
+from sql import Sql
 from dash import dcc
 from dash import html
 import mysql.connector
@@ -9,39 +10,31 @@ MYSQL_PASSWORD = 'password'
 MYSQL_DATABASE = 'website'
 
 #Establish the connection to MariaDB
-try:
-    cnx = mysql.connector.connect(user=MYSQL_USER, password=MYSQL_PASSWORD, host='db', database=MYSQL_DATABASE)
-    cursor = cnx.cursor()
-except mysql.connector.Error as err:
-    print(f"Something went wrong: {err}")
-    exit(1)
-else:
-    print("Connection successful!")
+db = Sql(MYSQL_DATABASE, DB_HOST='db', DB_USER=MYSQL_USER, DB_PASS=MYSQL_PASSWORD)
+print("Connection successful!")
 
-# SQL query
-query = "SHOW TABLES;"
-
-# Execute the query and fetch data
-cursor.execute(query)
-data = cursor.fetchall()
+# Create the "users" table
+db.insert("""
+CREATE TABLE IF NOT EXISTS `users` (
+    `id` INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `username` VARCHAR(30) NOT NULL,
+    `password` VARCHAR(100) NOT NULL,
+    `email` VARCHAR(50),
+    `registration_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    )""")
+# Insert an admin user with username "admin", password set at "123" and email "admin@example.com"
+db.insert("""
+    INSERT INTO users (username, password, email)
+    SELECT * FROM (SELECT 'admin' as username, '123' as password, 'admin@example.com' as email) AS tmp
+    WHERE NOT EXISTS (
+        SELECT username FROM users WHERE username = 'admin'
+    ) LIMIT 1
+""")
+print('Admin user created!')
 
 app = dash.Dash(__name__)
 app.layout = html.Div([
     html.H1('Welcome to our web page!', style={'textAlign': 'center'}),
-])
-app.layout = html.Div([
-    dcc.Graph(
-        id='example-graph',
-        figure={
-            'data': [
-                {'x': [row[0] for row in data], 'y': [row[1] for row in data], 'type': 'bar',
-'name': 'Your Data'},
-            ],
-            'layout': {
-                'title': 'Dash Data Visualization'
-            }
-        }
-    )
 ])
 
 if __name__ == '__main__':
