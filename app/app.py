@@ -1,10 +1,15 @@
 import dash
 from sql import Sql
+from navbar import get_navbar
 from dash import dcc
 from dash import html
-import mysql.connector
-from mysql.connector import Error
+from dash.dependencies import Input, Output
+import dash_bootstrap_components as dbc
 
+
+#--------------------------------------------------------------------------------------------------------
+#-- SQL init
+#--------------------------------------------------------------------------------------------------------
 MYSQL_USER     = 'user'
 MYSQL_PASSWORD = 'password'
 MYSQL_DATABASE = 'website'
@@ -32,10 +37,18 @@ db.insert("""
 """)
 print('Admin user created!')
 
-app = dash.Dash(__name__)
+#--------------------------------------------------------------------------------------------------------
+#-- APP init
+#--------------------------------------------------------------------------------------------------------
+app = dash.Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
 app.layout = html.Div([
-    html.H1('Welcome to our web page!', style={'textAlign': 'center'}),
+    get_navbar(dash.page_registry.values()),
+    dash.page_container
+    # content will be here
 ])
 
+#--------------------------------------------------------------------------------------------------------
+#-- MAIN
+#--------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
     app.run_server(debug=True, host="0.0.0.0")
