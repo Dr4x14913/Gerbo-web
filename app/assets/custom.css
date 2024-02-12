@@ -1,0 +1,39 @@
+
+#app-container{
+    display:flex;
+    flex-direction: column;
+    gap:1rem;
+    padding: 1rem;
+}
+
+#header{
+    display: flex;
+    flex-direction: row;
+    height: 5rem;
+    object-fit: contain;
+    gap:1rem;
+    align-items: center;
+    background-color: #ADD8E6;
+    padding:0.5rem;
+    size: 2rem;
+    font-size:large;
+    border-radius: 0.5rem;
+}
+
+#logo{
+    height: 100%;
+}
+
+#navbar{
+    color:black;
+    display: flex;
+    flex-direction: row;
+    row-gap: 1rem;
+    gap: 1rem;
+}
+
+.navlink:hover{
+    text-decoration: underline;
+}
+
+
