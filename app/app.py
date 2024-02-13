@@ -46,15 +46,6 @@ app.layout = html.Div([
     # content will be here
 ], id='app-container')
 
-@app.callback(
-    Output("user-display", "children"),
-    [Input("user-display", "value")],   # Triggering element is the number of times this component has been clicked, not the input values
-    # prevent_initial_call=True
-)
-def c(n_clicks):
-    # if n_clicks is not None:  # If 'submit' hasn't been clicked yet
-    #     return f"Log as: {get_current_user()}"
-    return f"Log as: {get_current_user()}"
 #--------------------------------------------------------------------------------------------------------
 #-- MAIN
 #--------------------------------------------------------------------------------------------------------

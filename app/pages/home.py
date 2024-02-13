@@ -22,22 +22,17 @@ login_form = dbc.Form(
     id='login-form',
 )
 
-# login_res = html.Div(id='out')
-
 layout = html.Div([
     login_form,
-    # login_res
 ])
 
 # Define callback for updating 'out' div content when 'submit' button is clicked
 @callback(
-    Output("user-display", "value"),
+    Output("user-display", "children"),
     [Input("submit", "n_clicks")],   # Triggering element is the number of times this component has been clicked, not the input values
     [State("password", "value"), State("username", "value")]  # Include states so that they are passed as inputs to callback function
 )
-def login(n_clicks, p, u):
-    if n_clicks is None:  # If 'submit' hasn't been clicked yet
-        return ""
-    else:
+def display_username_callbask(n_clicks, p, u):
+    if n_clicks is not None:  # If 'submit' hasn't been clicked yet
         log(u,p)
-        return f"{get_current_user()}"  # Assuming log function for logging in user with given username and password
+    return f"Logged as: {get_current_user()}"
