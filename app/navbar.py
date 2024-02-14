@@ -1,6 +1,5 @@
 import dash_bootstrap_components as dbc
 from dash import html
-# from login_manager import get_current_user
 
 def get_navbar(pages)->html.Div:
     """TODO"""

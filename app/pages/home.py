@@ -38,7 +38,7 @@ layout = html.Div([
 @callback(
     [Output("user-display", "children"), Output('CURRENT_USER', 'data')],
     [Input("submit", "n_clicks"), Input("logout-btn", "n_clicks")],
-    [State("password", "value"), State("username", "value"), State('CURRENT_USER', 'data')]
+    [State("password", "value"), State("username", "value"), State('CURRENT_USER', 'data')],
 )
 def login_and_logout_callback(login_clicks, logout_clicks, p, u, cu):
     ctx = callback_context
@@ -56,14 +56,12 @@ def login_and_logout_callback(login_clicks, logout_clicks, p, u, cu):
         res = logout()
         return (f"Logged as: {res}", res)
 
-    # return f"Logged as: {get_current_user()}"
-
-
 #------------------------------------------------------------------------------------
 @callback(
     [Output("login-form", "className"), Output("logout-btn", "className")],
     [Input("main-frame", "children"), Input("user-display", "children")],   # Triggering element is the number of times this component has been clicked, not the input values
-    [State('CURRENT_USER', 'data')]
+    [State('CURRENT_USER', 'data')],
+    prevent_initial_call=True
 )
 def display_form_callback(main, username, cu):
     if cu == "None":

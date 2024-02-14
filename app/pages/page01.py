@@ -31,7 +31,7 @@ layout = html.Div([
 #------------------------------------------------------------------------------------
 @callback(
     Output("resp", "children"),
-    [Input("title", "value")],
+    [Input("title", "children")],
     [State("CURRENT_USER", "data")]
 )
 def tt(dummy, user):
