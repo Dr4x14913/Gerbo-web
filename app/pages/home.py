@@ -1,8 +1,11 @@
 import dash
-from dash import html, dcc, callback, Input, Output, State
-from login_manager import log, get_current_user
+from dash import html, dcc, callback, Input, Output, State, callback_context
+from login_manager import login, logout#, get_current_user
 import dash_bootstrap_components as dbc
 
+#------------------------------------------------------------------------------------
+#-- Layout
+#------------------------------------------------------------------------------------
 dash.register_page(__name__)
 
 login_form = dbc.Form(
@@ -22,17 +25,49 @@ login_form = dbc.Form(
     id='login-form',
 )
 
+logout_btn = dbc.Button("Logout", color="danger", id="logout-btn", className = "d-none")
+
 layout = html.Div([
     login_form,
-])
+    logout_btn,
+], id="main-frame")
 
-# Define callback for updating 'out' div content when 'submit' button is clicked
+#------------------------------------------------------------------------------------
+#-- Callbacks
+#------------------------------------------------------------------------------------
 @callback(
-    Output("user-display", "children"),
-    [Input("submit", "n_clicks")],   # Triggering element is the number of times this component has been clicked, not the input values
-    [State("password", "value"), State("username", "value")]  # Include states so that they are passed as inputs to callback function
+    [Output("user-display", "children"), Output('CURRENT_USER', 'data')],
+    [Input("submit", "n_clicks"), Input("logout-btn", "n_clicks")],
+    [State("password", "value"), State("username", "value"), State('CURRENT_USER', 'data')]
 )
-def display_username_callbask(n_clicks, p, u):
-    if n_clicks is not None:  # If 'submit' hasn't been clicked yet
-        log(u,p)
-    return f"Logged as: {get_current_user()}"
+def login_and_logout_callback(login_clicks, logout_clicks, p, u, cu):
+    ctx = callback_context
+
+    if not ctx.triggered:
+        # No active trigger means this is the first render, so show current user status
+        return (f"Logged as: {cu}", cu)
+
+    button_id = ctx.triggered_id  # Gets the id of the triggered component
+
+    if button_id == "submit":
+        res = login(u, p)
+        return (f"Logged as: {res}", res) if res != 0 else (f"Logged as: {cu}", cu)
+    elif button_id == "logout-btn":
+        res = logout()
+        return (f"Logged as: {res}", res)
+
+    # return f"Logged as: {get_current_user()}"
+
+
+#------------------------------------------------------------------------------------
+@callback(
+    [Output("login-form", "className"), Output("logout-btn", "className")],
+    [Input("main-frame", "children"), Input("user-display", "children")],   # Triggering element is the number of times this component has been clicked, not the input values
+    [State('CURRENT_USER', 'data')]
+)
+def display_form_callback(main, username, cu):
+    if cu == "None":
+        return ("", "d-none")
+    else:
+        return ("d-none", "")
+

@@ -1,6 +1,5 @@
 import dash
-from login_manager import get_current_user
-from dash import html, dcc, callback, Input, Output
+from dash import html, dcc, callback, Input, Output, State
 import dash_bootstrap_components as dbc
 import pandas as pd
 
@@ -33,10 +32,10 @@ layout = html.Div([
 @callback(
     Output("resp", "children"),
     [Input("title", "value")],
+    [State("CURRENT_USER", "data")]
 )
-def tt(u):
-    user = get_current_user()
-    if user is not None:
+def tt(dummy, user):
+    if user != "None":
         return content
     else:
-        return f'You are nor log yet, please go {dcc.Link("back home", href="home")} for loggin'
+        return html.Div(['You are nor log yet, please go ', dcc.Link("back home", href="home"), ' for loggin'])

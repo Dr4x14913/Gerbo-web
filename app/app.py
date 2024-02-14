@@ -7,7 +7,6 @@ from dash import dcc
 from dash import html
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
-from login_manager import get_current_user
 
 #--------------------------------------------------------------------------------------------------------
 #-- SQL init
@@ -38,11 +37,13 @@ print('Admin user created!')
 #--------------------------------------------------------------------------------------------------------
 #-- APP init
 #--------------------------------------------------------------------------------------------------------
+current_user_storage = dcc.Store(id='CURRENT_USER', storage_type='local', data="None")
 app = dash.Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
 app.layout = html.Div([
     html.Div(children = [html.Img(src='assets/logo.png', id='logo'),
                         get_navbar(dash.page_registry.values())], id='header'),
-    dash.page_container
+    html.Div([], id="CURRENT-USER", className="d-none"),
+    dash.page_container, current_user_storage
     # content will be here
 ], id='app-container')
 
