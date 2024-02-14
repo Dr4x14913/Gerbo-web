@@ -17,7 +17,7 @@ services:
       MYSQL_USER: user  # replace with your username
       MYSQL_PASSWORD: password  # replace with your password
     ports:
-      - "3306:3306"
+      - "3307:3306"
     networks:
       - datastream
     healthcheck:
