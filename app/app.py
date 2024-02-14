@@ -37,16 +37,24 @@ print('Admin user created!')
 #--------------------------------------------------------------------------------------------------------
 #-- APP init
 #--------------------------------------------------------------------------------------------------------
-current_user_storage = dcc.Store(id='CURRENT_USER', storage_type='local', data="None")
+current_user_storage = dcc.Store(id='CURRENT_USER', storage_type='session', data="None")
 app = dash.Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
+
 app.layout = html.Div([
+    html.Div([ # Div holding location
+        dcc.Location(id='url'),], id='location'),
+    # Main div
     html.Div(children = [html.Img(src='assets/logo.png', id='logo'),
                         get_navbar(dash.page_registry.values())], id='header'),
-    html.Div([], id="CURRENT-USER", className="d-none"),
-    dash.page_container, current_user_storage
-    # content will be here
+    dash.page_container, current_user_storage,
 ], id='app-container')
-
+@app.callback(
+    Output('location', 'children'),
+    [Input('url', 'pathname')]
+)
+def redirect_to_home(pathname):
+    if pathname == '/':
+        return dcc.Location(id='redirect-to-home', pathname='/home')
 #--------------------------------------------------------------------------------------------------------
 #-- MAIN
 #--------------------------------------------------------------------------------------------------------
