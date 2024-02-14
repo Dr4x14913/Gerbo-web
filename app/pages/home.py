@@ -10,17 +10,19 @@ dash.register_page(__name__)
 
 login_form = dbc.Form(
     [
-        dbc.Label("Username", html_for="username"),
+        dbc.Label("Username"),
         dbc.Col(
             dbc.Input(type="text", id="username", placeholder="Enter your username"),
             width=4,
         ),
-        dbc.Label("Password", html_for="password"),
+        dbc.Label("Password"),
         dbc.Col(
             dbc.Input(type="password", id="password", placeholder="Enter your password"),
             width=4,
         ),
         dbc.Button("Submit", color="primary", type="submit", id="submit"),
+        html.Br(),
+        dbc.Label(id="login-error", color="danger")
     ],
     id='login-form',
 )
@@ -36,36 +38,40 @@ layout = html.Div([
 #-- Callbacks
 #------------------------------------------------------------------------------------
 @callback(
-    [Output("user-display", "children"), Output('CURRENT_USER', 'data')],
+    [Output("user-display", "children"), Output('CURRENT_USER', 'data'), Output("login-error", "children")],
     [Input("submit", "n_clicks"), Input("logout-btn", "n_clicks")],
     [State("password", "value"), State("username", "value"), State('CURRENT_USER', 'data')],
 )
-def login_and_logout_callback(login_clicks, logout_clicks, p, u, cu):
+def login_and_logout_callback(login_clicks, logout_clicks, pswd_in, user_in, current_user):
     ctx = callback_context
 
     if not ctx.triggered:
         # No active trigger means this is the first render, so show current user status
-        return (f"Logged as: {cu}", cu)
+        return (f"Logged as: {current_user}", current_user, "")
 
     button_id = ctx.triggered_id  # Gets the id of the triggered component
 
-    if button_id == "submit":
-        res = login(u, p)
-        return (f"Logged as: {res}", res) if res != 0 else (f"Logged as: {cu}", cu)
+    if button_id == "submit" and user_in is not None and pswd_in is not None:
+        res = login(user_in, pswd_in)
+        if res != 0:
+            return (f"Logged as: {res}", res, "")
+        else:
+            return (f"Logged as: {current_user}", current_user, "Error: username or password is incorrect")
     elif button_id == "logout-btn":
         res = logout()
-        return (f"Logged as: {res}", res)
+        return (f"Logged as: {res}", res, "")
+    else:
+        return (f"Logged as: {current_user}", current_user, "")
 
 #------------------------------------------------------------------------------------
 @callback(
     [Output("login-form", "className"), Output("logout-btn", "className")],
-    [Input("main-frame", "children"), Input("user-display", "children")],   # Triggering element is the number of times this component has been clicked, not the input values
+    [Input("user-display", "children")],   # Triggering element is the number of times this component has been clicked, not the input values
     [State('CURRENT_USER', 'data')],
     prevent_initial_call=True
 )
-def display_form_callback(main, username, cu):
-    if cu == "None":
+def display_form_callback(username, current_user):
+    if current_user == "None":
         return ("", "d-none")
     else:
         return ("d-none", "")
-

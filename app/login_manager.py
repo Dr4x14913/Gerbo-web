@@ -1,9 +1,6 @@
 #! /usr/bin/python3
 from sql import *
 
-# def get_current_user():
-#     return CURRENT_USER
-
 def logout():
     return "None"
 
@@ -19,5 +16,4 @@ def login(user, password):
         return 0
     if  db_pass[0][0] == password:
         return user
-    else:
-        return 0
+    return 0
