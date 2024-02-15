@@ -66,7 +66,7 @@ def login_and_logout_callback(login_clicks, logout_clicks, pswd_in, user_in, cur
 #------------------------------------------------------------------------------------
 @callback(
     [Output("login-form", "className"), Output("logout-btn", "className")],
-    [Input("user-display", "children")],   # Triggering element is the number of times this component has been clicked, not the input values
+    [Input("user-display", "children")],
     [State('CURRENT_USER', 'data')],
     prevent_initial_call=True
 )
