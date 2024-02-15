@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS `users` (
     `password` VARCHAR(100) NOT NULL,
     `display_name` VARCHAR(50),
     `team` VARCHAR(50),
+    `avatar_name` VARCHAR(50),
     `registration_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )""")
 # Insert an admin user with username "admin", password set at "123" and email "admin@example.com"
