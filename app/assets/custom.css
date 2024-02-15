@@ -80,4 +80,15 @@
 }
 
 
+.feature-label{
+    display: inline-block;
+}
+
+.feature-separator{
+    display: inline-block;
+}
+
+.feature-value{
+    display: inline-block;
+}
 

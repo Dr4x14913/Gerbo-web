@@ -23,7 +23,6 @@ def get_team_color(team_str):
     color = db.select(req)
     db.close()
 
-    print(color)
     return color
 
 
