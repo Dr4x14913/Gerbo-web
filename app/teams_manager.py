@@ -13,16 +13,18 @@ team_colors = {
 def get_team_color(team_str):
     if team_str not in team_colors.keys():
         return team_colors["GENERIC"]
-    
+
     return team_colors[team_str]
 
 
 # ------------ Initialize team variables -----------
-cols = ["team", "display_name"]
-sql_cols = ", ".join(cols)
+def get_all_teams():
+    cols = ["team", "display_name"]
+    sql_cols = ", ".join(cols)
 
-req = f"select {sql_cols} from users WHERE username <> 'admin';"
-df_teams = db.select_to_df(req, cols)
+    req = f"select {sql_cols} from users WHERE username <> 'admin';"
+    df_teams = db.select_to_df(req, cols)
 
-all_teams = list(df_teams.team.value_counts().index)
+    all_teams = list(df_teams.team.value_counts().index)
+    return df_teams, all_teams
 
