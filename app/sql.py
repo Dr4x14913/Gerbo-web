@@ -2,6 +2,7 @@
 import pip
 import pandas as pd
 from sys import stderr
+import pandas as pd
 
 MYSQL_USER     = 'user'
 MYSQL_PASSWORD = 'password'
@@ -41,11 +42,18 @@ class Sql:
             cursor = self.mydb.cursor()
             cursor.execute(request)
             result = cursor.fetchall()
+
         except mysql.connector.errors.ProgrammingError as e:
             error_msg = f"Sql request is:\n> {request}"
             print(error_msg, file=stderr)
             raise mysql.connector.errors.ProgrammingError(f"{e}:{error_msg}") from e
         return result
+    
+    def select_to_df(self, request, cols):
+        """Execute an sql request and return the result as a dataframe"""
+        lines = self.select(request)
+        df_res = pd.DataFrame(lines, columns=cols)
+        return df_res
 
     def select_to_df(self, request, cols):
         """Execute an sql request and return the result as a dataframe"""
