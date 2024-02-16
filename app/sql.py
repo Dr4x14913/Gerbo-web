@@ -1,5 +1,6 @@
 #! /usr/bin/python3
 import pip
+import pandas as pd
 from sys import stderr
 
 MYSQL_USER     = 'user'
@@ -45,6 +46,12 @@ class Sql:
             raise e
         return result
 
+    def select_to_df(self, request, cols):
+        """Execute an sql request and return the result as a dataframe"""
+        lines = self.select(request)
+        df_res = pd.DataFrame(lines, columns=cols)
+        return df_res
+
     def insert(self, request):
         """Execute an sql request on the chosen database and return the result"""
         try:
@@ -54,3 +61,5 @@ class Sql:
         except mysql.connector.errors.ProgrammingError as e:
             print(f"Sql request is:\n> {request}", file=stderr)
             raise e
+    def close(self):
+        self.mydb.close()
