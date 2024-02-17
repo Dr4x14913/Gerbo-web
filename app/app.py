@@ -36,6 +36,23 @@ db.insert("""
 """)
 print('Admin user created!')
 
+# Create the "teams" table
+db.insert("""
+CREATE TABLE IF NOT EXISTS `teams` (
+    `id` INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `color` VARCHAR(30) NOT NULL UNIQUE,
+    `registration_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    )""")
+# Insert an admin user with username "admin", password set at "123" and email "admin@example.com"
+db.insert("""
+    INSERT INTO teams (color)
+    SELECT * FROM (SELECT 'Rouge' as color) AS tmp
+    WHERE NOT EXISTS (
+        SELECT color FROM teams WHERE color = 'Rouge'
+    ) LIMIT 1
+""")
+print('team Rouge created!')
+
 #--------------------------------------------------------------------------------------------------------
 #-- APP init
 #--------------------------------------------------------------------------------------------------------
