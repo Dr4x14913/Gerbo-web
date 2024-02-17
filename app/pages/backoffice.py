@@ -24,11 +24,11 @@ content =  dbc.Card(
         dbc.CardHeader(
             dbc.Tabs(
                 [
-                    dbc.Tab(label="Show db", tab_id="tab-1"),
-                    dbc.Tab(label="Modify db", tab_id="tab-2"),
+                    dbc.Tab(label="Show db", tab_id="tab-show"),
+                    dbc.Tab(label="Modify db", tab_id="tab-edit"),
                 ],
                 id="card-tabs",
-                active_tab="tab-1",
+                active_tab="tab-show",
             )
         ),
         dbc.CardBody(html.P(id="card-content", className="card-text")),
@@ -43,6 +43,8 @@ layout = html.Div([
 #------------------------------------------------------------------------------------
 #-- Callbacks
 #------------------------------------------------------------------------------------
+# This callback either display an error or the real content of the page depending on
+# the user you are log with
 @callback(
     Output("backoffice-content", "children"),
     [Input("backoffice-content", "children")],
@@ -54,13 +56,17 @@ def access(dummy, user):
     else:
         return dbc.Alert('Permission denied', color="danger")
 
+#------------------------------------------------------------------------------------
+# This callback display the content of the database as boostrap tables. Two modes
+# are availables, the display mode that just display the databse content and the
+# Edit mode, that allow the admin user to change data.
 @callback(
     Output("card-content", "children"),
     [Input("card-tabs", "active_tab")],
 )
 def display_tables_callback(tab):
     content = []
-    if tab == "tab-1":
+    if tab == "tab-show":
         for t in tables:
             cols = tables[t]["cols"]
             cond = tables[t]["cond"]
@@ -74,6 +80,8 @@ def display_tables_callback(tab):
             content.append(html.Br())
     return html.Div(content)
 
+#------------------------------------------------------------------------------------
+# This callback update the database based on what contain the input fields
 @callback(Output('sql-error', 'children'),
           [Input({"type":"send-db", "index": ALL}, 'n_clicks'), Input({"type":"send-db", "index": ALL}, 'id')],
           [State({"type":"in-db", "index": ALL}, "value"), State({"type":"in-db", "index": ALL}, "id")]
