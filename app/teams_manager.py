@@ -13,25 +13,18 @@ team_colors = {
 # ------------ Functions --------------
 
 def get_team_color(team_str):
-    if team_str not in team_colors.keys():
-        return team_colors["GENERIC"]
-
-    return team_colors[team_str]
-
-
-def get_all_team_colors():
     # Make SQL request 
     cols = ["color"]
     sql_cols = ", ".join(cols)
-    req = f"select {sql_cols} from teams;"
+    req = f"select {sql_cols} from teams where name = '{team_str}';"
 
     # Connect and request database
     db = Sql(MYSQL_DATABASE, DB_HOST='db', DB_USER=MYSQL_USER, DB_PASS=MYSQL_PASSWORD)
-    df_team_colors = db.select_to_df(req, cols)
+    color = db.select(req)
     db.close()
 
-    team_colors = df_team_colors.color.to_numpy()
-    return team_colors
+    print(color)
+    return color
 
 
 def get_all_teams():
