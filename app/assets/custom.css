@@ -29,6 +29,11 @@
     height: 100%;
 }
 
+#login-form{
+    display:flex;
+    flex-direction: column;
+}
+
 #navbar{
     color:black;
     display: flex;

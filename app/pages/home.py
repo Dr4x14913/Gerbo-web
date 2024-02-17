@@ -16,13 +16,16 @@ login_form = dbc.Form(
             width=4,
         ),
 
+        html.Br(),
         dbc.Label("Password"),
         dbc.Col(
             dbc.Input(type="password", id="password", placeholder="Enter your password"),
             width=4,
         ),
-        
+
+        html.Br(),
         dbc.Button("Submit", color="primary", type="submit", id="submit"),
+        
         html.Br(),
         dbc.Label(id="login-error", color="danger")
     ],
