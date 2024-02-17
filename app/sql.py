@@ -42,14 +42,20 @@ class Sql:
             cursor.execute(request)
             result = cursor.fetchall()
         except mysql.connector.errors.ProgrammingError as e:
-            print(f"Sql request is:\n> {request}", file=stderr)
-            raise e
+            error_msg = f"Sql request is:\n> {request}"
+            print(error_msg, file=stderr)
+            raise mysql.connector.errors.ProgrammingError(f"{e}:{error_msg}") from e
         return result
 
     def select_to_df(self, request, cols):
         """Execute an sql request and return the result as a dataframe"""
-        lines = self.select(request)
-        df_res = pd.DataFrame(lines, columns=cols)
+        try:
+            lines = self.select(request)
+            df_res = pd.DataFrame(lines, columns=cols)
+        except mysql.connector.errors.ProgrammingError as e:
+            error_msg = f"Sql request is:\n> {request}"
+            print(error_msg, file=stderr)
+            raise mysql.connector.errors.ProgrammingError(f"{e}:{error_msg}") from e
         return df_res
 
     def insert(self, request):
@@ -59,7 +65,9 @@ class Sql:
             cursor.execute(request)
             self.mydb.commit()
         except mysql.connector.errors.ProgrammingError as e:
-            print(f"Sql request is:\n> {request}", file=stderr)
-            raise e
+            error_msg = f"Sql request is:\n> {request}"
+            print(error_msg, file=stderr)
+            raise mysql.connector.errors.ProgrammingError(f"{e}:{error_msg}") from e
+
     def close(self):
         self.mydb.close()
