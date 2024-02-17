@@ -1,3 +1,3 @@
 # Gerbo-web
 
-![Gerbimage](/ressources/gerbouillette.jpg)
+![Gerbimage](/assets/logo.jpg)
