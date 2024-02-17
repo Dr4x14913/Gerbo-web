@@ -12,8 +12,11 @@ def login(user, password):
     if any(char in user for char in " ;"):
         return 0
     db_pass = db.select(f"Select password from users where username='{user}'")
+
     if len(db_pass) == 0:
         return 0
+    
     if  db_pass[0][0] == password:
-        return user
+        return user 
+    
     return 0

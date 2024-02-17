@@ -1,37 +1,47 @@
 import dash
 from dash import html, dcc, callback, Input, Output, State
 import dash_bootstrap_components as dbc
-from teams_manager import get_team_color, get_all_teams
+from teams_manager import get_team_color, get_all_teams, random_str
 
 dash.register_page(__name__)
 
 
-
 # ------------- Page Components -------------------
-layout = html.Div(
- [], id="teams-display"
-)
 
+layout = html.Div([
+    dbc.Button("Generate", color="primary", type="submit", id="generator_button"),
+    html.Div("bonjour", id="generated_value"),
+    html.Div(id="teams-display")
+])
 
-@callback(Output("teams-display", "children"),
-          [Input("teams-display", "children")]
-        )
-def dummy(dummy):
-    team_components = {}
+# ------------ Callback functions ---------------
+
+@callback(Output("teams-display", "children"), Input("teams-display", "children"))
+def make_team_table(nothing):
+    # données des équipes
     df_teams, all_teams = get_all_teams()
 
+    # Tableaux par équipes
+    team_components = []
     for team in all_teams:
-        # récupération des données
+        # données de l'équipe
         df_inte = df_teams[df_teams.team == team].copy()
         users = df_inte.display_name.to_numpy()
 
-        # conception tableaux html des équipes
-        header = [html.Thead(html.Tr([html.Th(team)]))]
-        body = [html.Tbody([
-                html.Tr([html.Td(user)]) for user in users
-            ])]
+        # tableau html
         color = get_team_color(team)
+        header = [html.Thead(html.Tr([html.Th(team)]))]
+        body = [html.Tbody([html.Tr([html.Td(user)]) for user in users])]
+        
+        table = dbc.Table(header + body, id=f"team_table-{team}", color=color, bordered=True)
+        team_components.append(table)
+    
+    return team_components
 
-        # sauvegarde des tableaux
-        team_components[team] = dbc.Table(header + body, id=f"team_table-{team}", color=color, bordered=True)
-        return [table_component for team, table_component in team_components.items()]
+
+@callback(Output("generated_value", "children"), Input("generator_button", "n_clicks"))
+def get_random_string(clicked):
+    res = random_str()
+    print(res)
+    return res
+
