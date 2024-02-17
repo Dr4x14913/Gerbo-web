@@ -15,6 +15,26 @@ import dash_bootstrap_components as dbc
 db = Sql(MYSQL_DATABASE, DB_HOST='db', DB_USER=MYSQL_USER, DB_PASS=MYSQL_PASSWORD)
 print("Connection successful!")
 
+
+# Create the "teams" table
+db.insert("""
+CREATE TABLE IF NOT EXISTS `teams` (
+    `id` INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(30) UNIQUE,
+    `color` VARCHAR(30),
+    `registration_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    )""")
+
+# db.insert(f"""
+#     INSERT INTO teams (name)
+#     SELECT * FROM (SELECT '{default_team}' as name) AS tmp
+#     WHERE NOT EXISTS (
+#         SELECT name FROM teams WHERE name = '{default_team}'
+#     ) LIMIT 1
+# """)
+# print(f'{default_team} team created!')
+
+
 # Create the "users" table
 db.insert("""
 CREATE TABLE IF NOT EXISTS `users` (
@@ -24,10 +44,12 @@ CREATE TABLE IF NOT EXISTS `users` (
     `display_name` VARCHAR(50),
     `team` VARCHAR(50),
     `avatar_name` VARCHAR(50),
-    `registration_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    `registration_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT `existing_team`
+        FOREIGN KEY (team) REFERENCES teams (name)
     )""")
 # Insert an admin user with username "admin", password set at "123" and email "admin@example.com"
-db.insert("""
+db.insert(f"""
     INSERT INTO users (username, password)
     SELECT * FROM (SELECT 'admin' as username, '123' as password) AS tmp
     WHERE NOT EXISTS (
@@ -36,22 +58,7 @@ db.insert("""
 """)
 print('Admin user created!')
 
-# Create the "teams" table
-db.insert("""
-CREATE TABLE IF NOT EXISTS `teams` (
-    `id` INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    `color` VARCHAR(30) NOT NULL UNIQUE,
-    `registration_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-    )""")
-# Insert an admin user with username "admin", password set at "123" and email "admin@example.com"
-db.insert("""
-    INSERT INTO teams (color)
-    SELECT * FROM (SELECT 'Rouge' as color) AS tmp
-    WHERE NOT EXISTS (
-        SELECT color FROM teams WHERE color = 'Rouge'
-    ) LIMIT 1
-""")
-print('team Rouge created!')
+
 
 #--------------------------------------------------------------------------------------------------------
 #-- APP init

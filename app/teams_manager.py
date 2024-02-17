@@ -19,6 +19,21 @@ def get_team_color(team_str):
     return team_colors[team_str]
 
 
+def get_all_team_colors():
+    # Make SQL request 
+    cols = ["color"]
+    sql_cols = ", ".join(cols)
+    req = f"select {sql_cols} from teams;"
+
+    # Connect and request database
+    db = Sql(MYSQL_DATABASE, DB_HOST='db', DB_USER=MYSQL_USER, DB_PASS=MYSQL_PASSWORD)
+    df_team_colors = db.select_to_df(req, cols)
+    db.close()
+
+    team_colors = df_team_colors.color.to_numpy()
+    return team_colors
+
+
 def get_all_teams():
     # Make SQL request 
     cols = ["team", "display_name"]
@@ -32,7 +47,5 @@ def get_all_teams():
 
     # exctract name of all teams
     all_teams = list(df_teams.team.value_counts().index)
-
-    print("all_teams")
 
     return df_teams, all_teams
