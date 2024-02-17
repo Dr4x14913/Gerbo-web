@@ -26,7 +26,7 @@ content =  dbc.Card(
 layout = html.Div([
     html.Div([content], id='backoffice-content'),
     html.Br(),
-    html.Div(["jj:"], id="output"),
+    html.Div([], id="sql-error", className="danger"),
 ])
 
 #------------------------------------------------------------------------------------
@@ -71,7 +71,7 @@ def tab_content_callback(tab):
     return content
 # dash callback that fetch the value of all input text field with their id beginning with "input-"
 
-@callback(Output('output', 'children'),
+@callback(Output('sql-error', 'children'),
           [Input("send-btn", 'n_clicks')],
           [State({"type":"in-db", "index": ALL}, "value"), State({"type":"in-db", "index": ALL}, "id")]
     )
