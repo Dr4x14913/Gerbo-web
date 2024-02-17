@@ -2,8 +2,15 @@
 #app-container{
     display:flex;
     flex-direction: column;
-    gap:1rem;
+    gap: 1rem;
     padding: 1rem;
+    width:100dvw;
+    height:100dvh;
+    background-image: url('/assets/background/bg_landscape.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    align-items: center;
 }
 
 #header{
@@ -13,25 +20,12 @@
     object-fit: contain;
     gap:1rem;
     align-items: center;
-    background-color: #ADD8E6;
-    padding:0.5rem;
-    size: 2rem;
+    background-color: rgb(225, 225, 225, 0.9);
+    padding:1rem;
     font-size:large;
     border-radius: 0.5rem;
-}
-
-#logo{
-    height: 100%;
-}
-
-#logo-link-to-home{
-    object-fit: contain;
-    height: 100%;
-}
-
-#login-form{
-    display:flex;
-    flex-direction: column;
+    white-space: nowrap;
+    width: 100%;
 }
 
 #navbar{
@@ -45,5 +39,32 @@
 .navlink:hover{
     text-decoration: underline;
 }
+
+#logo{
+    height: 100%;
+}
+
+#logo-link-to-home{
+    object-fit: contain;
+    height: 100%;
+}
+
+#user-display{
+    font-weight: lighter;
+}
+
+
+
+#login-form{
+    display:flex;
+    flex-direction: column;
+    background-color: rgb(225, 225, 225, 0.6);
+    border-radius: 1rem;
+    padding:1rem;
+    gap:1rem;
+    width:100%;
+}
+
+
 
 
