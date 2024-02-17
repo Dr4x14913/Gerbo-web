@@ -48,12 +48,6 @@ class Sql:
             print(error_msg, file=stderr)
             raise mysql.connector.errors.ProgrammingError(f"{e}:{error_msg}") from e
         return result
-    
-    def select_to_df(self, request, cols):
-        """Execute an sql request and return the result as a dataframe"""
-        lines = self.select(request)
-        df_res = pd.DataFrame(lines, columns=cols)
-        return df_res
 
     def select_to_df(self, request, cols):
         """Execute an sql request and return the result as a dataframe"""
