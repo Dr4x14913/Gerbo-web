@@ -35,13 +35,3 @@ def get_all_teams():
     print("all_teams")
 
     return df_teams, all_teams
-
-
-
-
-def random_str(size=6):
-    random_list = list(np.random.randint(0,10,size))
-    res = [str(val) for val in random_list]
-    res = "".join(res)
-    print(res)
-    return res

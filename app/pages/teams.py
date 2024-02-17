@@ -9,8 +9,6 @@ dash.register_page(__name__)
 # ------------- Page Components -------------------
 
 layout = html.Div([
-    dbc.Button("Generate", color="primary", type="submit", id="generator_button"),
-    html.Div("bonjour", id="generated_value"),
     html.Div(id="teams-display")
 ])
 
@@ -37,11 +35,4 @@ def make_team_table(nothing):
         team_components.append(table)
     
     return team_components
-
-
-@callback(Output("generated_value", "children"), Input("generator_button", "n_clicks"))
-def get_random_string(clicked):
-    res = random_str()
-    print(res)
-    return res
 
