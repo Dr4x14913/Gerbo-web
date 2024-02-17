@@ -6,7 +6,7 @@ import dash_bootstrap_components as dbc
 #------------------------------------------------------------------------------------
 #-- Layout
 #------------------------------------------------------------------------------------
-dash.register_page(__name__)
+dash.register_page(__name__)   
 
 login_form = dbc.Form(
     [
@@ -15,11 +15,13 @@ login_form = dbc.Form(
             dbc.Input(type="text", id="username", placeholder="Enter your username"),
             width=4,
         ),
+
         dbc.Label("Password"),
         dbc.Col(
             dbc.Input(type="password", id="password", placeholder="Enter your password"),
             width=4,
         ),
+        
         dbc.Button("Submit", color="primary", type="submit", id="submit"),
         html.Br(),
         dbc.Label(id="login-error", color="danger")
@@ -27,7 +29,7 @@ login_form = dbc.Form(
     id='login-form',
 )
 
-logout_btn = dbc.Button("Logout", color="danger", id="logout-btn", className = "d-none")
+logout_btn = dbc.Button("Logout", color="danger", id="logout-btn", className="d-none")
 
 layout = html.Div([
     login_form,
@@ -75,3 +77,5 @@ def display_form_callback(username, current_user):
         return ("", "d-none")
     else:
         return ("d-none", "")
+
+

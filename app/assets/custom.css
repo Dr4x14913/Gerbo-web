@@ -24,6 +24,11 @@
     height: 100%;
 }
 
+#logo-link-to-home{
+    object-fit: contain;
+    height: 100%;
+}
+
 #navbar{
     color:black;
     display: flex;

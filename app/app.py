@@ -3,14 +3,14 @@ sys.path.extend(["pages","."])
 import dash
 from sql import *
 from navbar import get_navbar
-from dash import dcc
-from dash import html
+from dash import dcc, html
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 
 #--------------------------------------------------------------------------------------------------------
 #-- SQL init
 #--------------------------------------------------------------------------------------------------------
+
 #Establish the connection to MariaDB
 db = Sql(MYSQL_DATABASE, DB_HOST='db', DB_USER=MYSQL_USER, DB_PASS=MYSQL_PASSWORD)
 print("Connection successful!")
@@ -69,11 +69,19 @@ app = dash.Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.BOOTS
 app.layout = html.Div([
     html.Div([ # Div holding location
         dcc.Location(id='url'),], id='location'),
-    # Main div
-    html.Div(children = [html.Img(src='assets/logo.png', id='logo'),
-                        get_navbar(dash.page_registry.values())], id='header'),
+        
+    # Header
+    html.Div(children = [
+        dcc.Link( # go back to home page when image is clicked
+            html.Img(src='assets/logo.png', id='logo'), 
+            href="/home", refresh=False , id='logo-link-to-home'
+        ), 
+        get_navbar(dash.page_registry.values())
+    ], id='header'),
+
     dash.page_container, current_user_storage,
 ], id='app-container')
+
 @app.callback(
     Output('location', 'children'),
     [Input('url', 'pathname')]
@@ -81,6 +89,8 @@ app.layout = html.Div([
 def redirect_to_home(pathname):
     if pathname == '/':
         return dcc.Location(id='redirect-to-home', pathname='/home')
+    
+
 #--------------------------------------------------------------------------------------------------------
 #-- MAIN
 #--------------------------------------------------------------------------------------------------------
