@@ -6,6 +6,7 @@ team_colors = {
     "Rouge": "danger",
     "Bleu": "primary",
     "Jaune": "warning",
+    "Verte": "success",
     "GENERIC": "secondary",
 }
 
