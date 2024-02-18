@@ -9,10 +9,12 @@ tables = {
         "users": {
             "cols": ["username", "display_name", "team", "avatar_name"],
             "cond": "username != 'admin'",
+            "cols_create": ["username", "password", "display_name", "team", "avatar_name"],
             },
         "teams": {
             "cols": ["name", "color"],
             "cond": "1",
+            "cols_create": ["name", "color"],
             }
         }
 
@@ -130,7 +132,10 @@ def add_line_callback(clicks_add, is_open):
         raise PreventUpdate
     ctx       = callback_context
     button_id = ctx.triggered_id
+    #Table with one row of empty input text that have as id the name of ther column and "table2add" var
     table2add = button_id["table"]
+    table_header =
+
     modal_content = html.Div([
         dbc.ModalHeader(dbc.ModalTitle(table2add)),
         dbc.ModalBody("This is the content of the modal"),
