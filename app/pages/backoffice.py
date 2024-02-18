@@ -76,15 +76,15 @@ def display_tables_callback(tab):
             cols = tables[t]["cols"]
             cond = tables[t]["cond"]
             tmp = gen_table_with_inputs(t, cols, cond)
-            content.append(html.Div([tmp, dbc.Button("Send", color="success", className="me-1", id={"type":"send-db", "index":f"{t}"})]))
+            content.append(html.Div([tmp, dbc.Button("Send", color="success", className="me-1", id={"type":"send-db", "totable":f"{t}"})]))
             content.append(html.Br())
     return html.Div(content)
 
 #------------------------------------------------------------------------------------
 # This callback update the database based on what contain the input fields
 @callback(Output('sql-error', 'children'),
-          [Input({"type":"send-db", "index": ALL}, 'n_clicks'), Input({"type":"send-db", "index": ALL}, 'id')],
-          [State({"type":"in-db", "index": ALL}, "value"), State({"type":"in-db", "index": ALL}, "id")]
+          [Input({"type":"send-db", "totable": ALL}, 'n_clicks'), Input({"type":"send-db", "totable": ALL}, 'id')],
+          [State({"type":"in-db", "table": ALL, "row":ALL, "col":ALL}, "value"), State({"type":"in-db", "table": ALL, "row":ALL, "col":ALL}, "id")]
     )
 def update_tables_callback(clicks, btn_ids, values, ids):
     if all(i is None for i in clicks):
@@ -92,14 +92,14 @@ def update_tables_callback(clicks, btn_ids, values, ids):
     ctx       = callback_context
     button_id = ctx.triggered_id
 
-    table2update    = button_id["index"]
+    table2update    = button_id["totable"]
     main_col        = tables[table2update]["cols"][0]
     values_filtered = []
     ids_filtered    = []
     for i,v in zip(ids, values):
-        if i['index'].split("-")[0] == table2update:
+        if i['table'] == table2update:
             values_filtered.append(v)
-            ids_filtered.append(i['index'].split('-')[1:])
+            ids_filtered.append([i['row'], i['col']])
     updates = {}
     for val, idx in zip(values_filtered, ids_filtered):
         cond, colname = idx
@@ -111,17 +111,21 @@ def update_tables_callback(clicks, btn_ids, values, ids):
 #------------------------------------------------------------------------------------
 #-- Other functions
 #------------------------------------------------------------------------------------
-def get_input(text, id):
-    full_id = {"type":f"in-db", "index":id}
+def get_input(text, table, row, col):
+    full_id = {"type":f"in-db", "table":table, "row":row, "col":col}
     return dbc.Input(value=text, type="text", id=full_id),
 
+# Takes a table name, a list of columns and a sql where condition, and return a html table
+# with input text field pre-filled with databse table content
 def gen_table_with_inputs(table, cols, cond="1"):
     data         = get_db_data_as_df(table, cols, cond).to_dict('split')
     idx          = {data['columns'].index(colname): colname for colname in data['columns'] }
     table_header = [html.Thead([html.Tr([html.Th(h) for h in data['columns']])])]
+    last_row = [html.Tr([html.Td(dbc.Button(html.I(className="bi bi-plus-circle"), color="warning", id=f"add-db-{table}"))])]
     table_rows   = [
         html.Tbody(
-            [html.Tr([html.Td(get_input(elem,f"{table}-{row[0]}-{idx[row.index(elem)]}") if row.index(elem) != 0 else elem) for elem in row]) for row in data['data']]
+            [html.Tr([html.Td(get_input(elem,table,row[0],idx[row.index(elem)]) if row.index(elem) != 0 else elem) for elem in row]) for row in data['data']] +
+            last_row
         )
     ]
     table = dbc.Table(
