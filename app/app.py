@@ -6,6 +6,7 @@ from navbar import get_navbar
 from dash import dcc, html
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
+from dash.exceptions import PreventUpdate
 
 #--------------------------------------------------------------------------------------------------------
 #-- SQL init
@@ -82,11 +83,16 @@ app.layout = html.Div(children=[
 
     # Properties storage
     # current user
-    dcc.Store(id='CURRENT_USER', storage_type='session', data="None"),
+    dcc.Store(id='CURRENT_USER', storage_type='session', data=None),
     # url location
     dcc.Location(id='url')
 
 ], id='app-container')
+
+
+#--------------------------------------------------------------------------------------------------------
+#-- CALLBACKS
+#--------------------------------------------------------------------------------------------------------
 
 # Redirects user to home page on first app load ('/' -> '/home')
 @app.callback(
@@ -94,9 +100,21 @@ app.layout = html.Div(children=[
     Input(component_id='url', component_property='pathname')
 )
 def redirect_to_home(current_pathname):
-    if current_pathname == '/':
+    if current_pathname != '/':
+        raise PreventUpdate
+    else:
         return '/home'
-    
+
+# Redirects user to home page on first app load ('/' -> '/home')
+@app.callback(
+    Output(component_id='user-display', component_property='children'),
+    Input(component_id='CURRENT_USER', component_property='data')
+)
+def show_current_user(current_user):
+    if current_user is None:
+        return 'Not logged'
+    else:
+        return f'Logged as {current_user}'
 
 #--------------------------------------------------------------------------------------------------------
 #-- MAIN
