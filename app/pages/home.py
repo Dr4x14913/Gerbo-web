@@ -1,5 +1,5 @@
 import dash
-from sql import *
+from login_manager import login
 from dash import html, dcc, callback, Input, Output, State, callback_context
 import dash_bootstrap_components as dbc
 from dash.exceptions import PreventUpdate
@@ -102,30 +102,5 @@ def login_form(login_error_style):
     login_error = [html.Div(id='login-error', style=login_error_style, children = "Error: username or password is incorrect")]
 
     return html.Div(id='login-form', children=username_entry+password_entry+login_btn+login_error)
-
-#------------------------------------------------------------------------------------
-#-- Back functions
-#------------------------------------------------------------------------------------
-
-def login(user, password):
-    """TODO: doc"""
-
-    # Connexion to database
-    db = Sql(MYSQL_DATABASE, DB_HOST='db', DB_USER=MYSQL_USER, DB_PASS=MYSQL_PASSWORD)
-
-    # Check username
-    if user is None:
-        return 0
-    if any(char in user for char in " ;"):
-        return 0
-    
-    # Search in database
-    db_pass = db.select(f"Select password from users where username='{user}'")
-    if len(db_pass) == 0:
-        return 0
-    if  db_pass[0][0] == password:
-        return user 
-    
-    return 0
 
 

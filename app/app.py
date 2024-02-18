@@ -2,7 +2,6 @@ import sys
 sys.path.extend(["pages","."])
 import dash
 from sql import *
-from navbar import get_navbar
 from dash import dcc, html
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
@@ -60,6 +59,20 @@ db.insert(f"""
 print('Admin user created!')
 
 
+#--------------------------------------------------------------------------------------------------------
+#-- Front functions
+#--------------------------------------------------------------------------------------------------------
+
+def get_navbar(pages)->html.Div:
+    """TODO"""
+    user = html.Div([f"Not logged"], id="user-display")
+    rows = [
+        (dbc.NavLink(page['name'], href=page['relative_path'], class_name='navlink')) 
+        for page in pages 
+        if page["name"] != "Home" # home n'est pas pris en compte dans la navbar
+    ] + [user]
+    navbar = html.Div(children = rows, id='navbar')
+    return navbar
 
 #--------------------------------------------------------------------------------------------------------
 #-- APP init
@@ -121,3 +134,4 @@ def show_current_user(current_user):
 #--------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
     app.run_server(debug=True, host="0.0.0.0")
+
