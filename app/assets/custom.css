@@ -4,13 +4,14 @@
     flex-direction: column;
     gap: 1rem;
     padding: 1rem;
-    width:100dvw;
-    height:100dvh;
+    width:100vw;
+    height:100vh;
     background-image: url('/assets/background/bg_landscape.png');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
     align-items: center;
+    position: fixed;
 }
 
 #header{
