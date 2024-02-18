@@ -25,15 +25,6 @@ CREATE TABLE IF NOT EXISTS `teams` (
     `registration_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )""")
 
-# db.insert(f"""
-#     INSERT INTO teams (name)
-#     SELECT * FROM (SELECT '{default_team}' as name) AS tmp
-#     WHERE NOT EXISTS (
-#         SELECT name FROM teams WHERE name = '{default_team}'
-#     ) LIMIT 1
-# """)
-# print(f'{default_team} team created!')
-
 
 # Create the "users" table
 db.insert("""
@@ -67,8 +58,8 @@ def get_navbar(pages)->html.Div:
     """TODO"""
     user = html.Div([f"Not logged"], id="user-display")
     rows = [
-        (dbc.NavLink(page['name'], href=page['relative_path'], class_name='navlink')) 
-        for page in pages 
+        (dbc.NavLink(page['name'], href=page['relative_path'], class_name='navlink'))
+        for page in pages
         if page["name"] != "Home" # home n'est pas pris en compte dans la navbar
     ] + [user]
     navbar = html.Div(children = rows, id='navbar')
@@ -77,17 +68,15 @@ def get_navbar(pages)->html.Div:
 #--------------------------------------------------------------------------------------------------------
 #-- APP init
 #--------------------------------------------------------------------------------------------------------
-
-app = dash.Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = dash.Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.BOOTSTRAP])
 
 app.layout = html.Div(children=[
-
     # Header banner
     html.Div(children = [
         dcc.Link( # go back to home page when image is clicked
-            html.Img(src='assets/logo (2).png', id='logo'), 
+            html.Img(src='assets/logo (2).png', id='logo'),
             href="/home", refresh=False , id='logo-link-to-home'
-        ), 
+        ),
         get_navbar(dash.page_registry.values())
     ], id='header'),
 
