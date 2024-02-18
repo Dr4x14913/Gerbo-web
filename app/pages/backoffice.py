@@ -19,7 +19,17 @@ tables = {
 #------------------------------------------------------------------------------------
 dash.register_page(__name__)
 
-content =  dbc.Card(
+modal = html.Div(
+    [
+        dbc.Modal(
+            [
+            ],
+            id="modal",
+            is_open=False,
+        ),
+    ]
+)
+card =  dbc.Card(
     [
         dbc.CardHeader(
             dbc.Tabs(
@@ -34,10 +44,12 @@ content =  dbc.Card(
         dbc.CardBody(html.P(id="card-content", className="card-text")),
        html.Br(),
        html.Div([], id="sql-error", className="danger"),
+       html.Div([], id="add-error", className="danger"),
     ]
 )
+content = [card, modal]
 layout = html.Div([
-    html.Div([content], id='backoffice-content'),
+    html.Div([], id='backoffice-content'),
 ])
 
 #------------------------------------------------------------------------------------
@@ -83,10 +95,10 @@ def display_tables_callback(tab):
 #------------------------------------------------------------------------------------
 # This callback update the database based on what contain the input fields
 @callback(Output('sql-error', 'children'),
-          [Input({"type":"send-db", "totable": ALL}, 'n_clicks'), Input({"type":"send-db", "totable": ALL}, 'id')],
+          [Input({"type":"send-db", "totable": ALL}, 'n_clicks')],
           [State({"type":"in-db", "table": ALL, "row":ALL, "col":ALL}, "value"), State({"type":"in-db", "table": ALL, "row":ALL, "col":ALL}, "id")]
     )
-def update_tables_callback(clicks, btn_ids, values, ids):
+def update_tables_callback(clicks, values, ids):
     if all(i is None for i in clicks):
         raise PreventUpdate
     ctx       = callback_context
@@ -108,6 +120,23 @@ def update_tables_callback(clicks, btn_ids, values, ids):
     res = update_table(table2update, updates, main_col)
     return res
 
+@callback([Output("modal", "is_open"),Output("modal", "children")],
+          [Input({"type":"add-db", "table":ALL}, 'n_clicks')],
+          [State("modal", "is_open")],
+          prevent_initial_call=True
+    )
+def add_line_callback(clicks_add, is_open):
+    if clicks_add.count(None) == len(clicks_add):
+        raise PreventUpdate
+    ctx       = callback_context
+    button_id = ctx.triggered_id
+    table2add = button_id["table"]
+    modal_content = html.Div([
+        dbc.ModalHeader(dbc.ModalTitle(table2add)),
+        dbc.ModalBody("This is the content of the modal"),
+        dbc.ModalFooter(),
+    ])
+    return True, modal_content
 #------------------------------------------------------------------------------------
 #-- Other functions
 #------------------------------------------------------------------------------------
@@ -121,7 +150,7 @@ def gen_table_with_inputs(table, cols, cond="1"):
     data         = get_db_data_as_df(table, cols, cond).to_dict('split')
     idx          = {data['columns'].index(colname): colname for colname in data['columns'] }
     table_header = [html.Thead([html.Tr([html.Th(h) for h in data['columns']])])]
-    last_row = [html.Tr([html.Td(dbc.Button(html.I(className="bi bi-plus-circle"), color="warning", id=f"add-db-{table}"))])]
+    last_row = [html.Tr([html.Td(dbc.Button(html.I(className="bi bi-plus-circle"), color="warning", id={"type":"add-db", "table":table}))])]
     table_rows   = [
         html.Tbody(
             [html.Tr([html.Td(get_input(elem,table,row[0],idx[row.index(elem)]) if row.index(elem) != 0 else elem) for elem in row]) for row in data['data']] +
