@@ -63,32 +63,39 @@ print('Admin user created!')
 #--------------------------------------------------------------------------------------------------------
 #-- APP init
 #--------------------------------------------------------------------------------------------------------
-current_user_storage = dcc.Store(id='CURRENT_USER', storage_type='session', data="None")
+
 app = dash.Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
-app.layout = html.Div([
-    html.Div([ # Div holding location
-        dcc.Location(id='url'),], id='location'),
-        
-    # Header
+app.layout = html.Div(children=[
+
+    # Header banner
     html.Div(children = [
         dcc.Link( # go back to home page when image is clicked
-            html.Img(src='assets/logo.png', id='logo'), 
+            html.Img(src='assets/logo (2).png', id='logo'), 
             href="/home", refresh=False , id='logo-link-to-home'
         ), 
         get_navbar(dash.page_registry.values())
     ], id='header'),
 
-    dash.page_container, current_user_storage,
+    # Page
+    dash.page_container,
+
+    # Properties storage
+    # current user
+    dcc.Store(id='CURRENT_USER', storage_type='session', data="None"),
+    # url location
+    dcc.Location(id='url')
+
 ], id='app-container')
 
+# Redirects user to home page on first app load ('/' -> '/home')
 @app.callback(
-    Output('location', 'children'),
-    [Input('url', 'pathname')]
+    Output(component_id='url', component_property='pathname'),
+    Input(component_id='url', component_property='pathname')
 )
-def redirect_to_home(pathname):
-    if pathname == '/':
-        return dcc.Location(id='redirect-to-home', pathname='/home')
+def redirect_to_home(current_pathname):
+    if current_pathname == '/':
+        return '/home'
     
 
 #--------------------------------------------------------------------------------------------------------
