@@ -43,10 +43,10 @@ class Sql:
             cursor.execute(request)
             result = cursor.fetchall()
 
-        except mysql.connector.errors.ProgrammingError as e:
+        except mysql.connector.Error as e:
             error_msg = f"Sql request is:\n> {request}"
             print(error_msg, file=stderr)
-            raise mysql.connector.errors.ProgrammingError(f"{e}:{error_msg}") from e
+            raise mysql.connector.Error(f"{e}:{error_msg}") from e
         return result
 
     def select_to_df(self, request, cols):
@@ -54,10 +54,10 @@ class Sql:
         try:
             lines = self.select(request)
             df_res = pd.DataFrame(lines, columns=cols)
-        except mysql.connector.errors.ProgrammingError as e:
+        except mysql.connector.Error as e:
             error_msg = f"Sql request is:\n> {request}"
             print(error_msg, file=stderr)
-            raise mysql.connector.errors.ProgrammingError(f"{e}:{error_msg}") from e
+            raise mysql.connector.Error(f"{e}:{error_msg}") from e
         return df_res
 
     def insert(self, request):
@@ -66,10 +66,11 @@ class Sql:
             cursor = self.mydb.cursor()
             cursor.execute(request)
             self.mydb.commit()
-        except mysql.connector.errors.ProgrammingError as e:
+        except mysql.connector.Error as e:
             error_msg = f"Sql request is:\n> {request}"
             print(error_msg, file=stderr)
-            raise mysql.connector.errors.ProgrammingError(f"{e}:{error_msg}") from e
+            raise mysql.connector.Error(f"{e}:{error_msg}") from e
+
 
     def close(self):
         self.mydb.close()
