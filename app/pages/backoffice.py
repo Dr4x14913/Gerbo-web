@@ -201,10 +201,9 @@ def gen_table_with_inputs(table, cols, cond="1"):
     table_header = [html.Thead([html.Tr([html.Th(h) for h in data['columns']])])]
     last_row = [html.Tr([html.Td(dbc.Button(html.I(className="bi bi-plus-circle"), type='button', color="warning", id={"type":"openmodal-btn", "table":table}))])]
     table_rows   = [
-        html.Tbody(
-            [html.Tr([html.Td(get_input(elem,"in-db-txt",table,row[0],idx[row.index(elem)]) if row.index(elem) != 0 else elem) for elem in row]) for row in data['data']] +
-            last_row
-        )
+        html.Tbody([
+            html.Tr([html.Td(get_input(elem,"in-db-txt",table,row[0],idx[row.index(elem)]) if row.index(elem) != 0 else elem) for elem in row]) for row in data['data']
+        ] + last_row)
     ]
     table = dbc.Table(
         table_header + table_rows,
