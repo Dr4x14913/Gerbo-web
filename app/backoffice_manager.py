@@ -23,3 +23,15 @@ def update_table(table, update_dict, colname):
     except Exception as e:
         return f"Error: {e}"
     return ""
+
+def insert_row(table, cols, values):
+    try:
+        db = Sql(MYSQL_DATABASE, DB_HOST='db', DB_USER=MYSQL_USER, DB_PASS=MYSQL_PASSWORD)
+        print(table, cols, values, flush=True)
+        sql_req = f"INSERT INTO {table} (" + ", ".join(cols) + ") VALUES (" + ", ".join([f"'{i}'" for i in values])  + ")"
+        db.insert(sql_req)
+        db.close()
+    except Exception as e:
+        return f"Error: {e}"
+    return ""
+

@@ -3,7 +3,7 @@ from dash.exceptions import PreventUpdate
 from dash import html, dcc, callback, Input, Output, State, ALL, callback_context
 import dash_bootstrap_components as dbc
 import pandas as pd
-from backoffice_manager import get_db_data_as_df, update_table
+from backoffice_manager import get_db_data_as_df, update_table, insert_row
 
 tables = {
         "users": {
@@ -46,7 +46,6 @@ card =  dbc.Card(
         dbc.CardBody(html.P(id="card-content", className="card-text")),
        html.Br(),
        html.Div([], id="sql-error", className="danger"),
-       html.Div([], id="add-error", className="danger"),
     ]
 )
 content = [card, modal]
@@ -98,7 +97,7 @@ def display_tables_callback(tab):
 # This callback update the database based on what contain the input fields
 @callback(Output('sql-error', 'children'),
           [Input({"type":"send-db", "totable": ALL}, 'n_clicks')],
-          [State({"type":"in-db", "table": ALL, "row":ALL, "col":ALL}, "value"), State({"type":"in-db", "table": ALL, "row":ALL, "col":ALL}, "id")]
+          [State({"type":"in-db-txt", "table": ALL, "row":ALL, "col":ALL}, "value"), State({"type":"in-db-txt", "table": ALL, "row":ALL, "col":ALL}, "id")]
     )
 def update_tables_callback(clicks, values, ids):
     if all(i is None for i in clicks):
@@ -122,32 +121,69 @@ def update_tables_callback(clicks, values, ids):
     res = update_table(table2update, updates, main_col)
     return res
 
+#------------------------------------------------------------------------------------
 @callback([Output("modal", "is_open"),Output("modal", "children")],
-          [Input({"type":"add-db", "table":ALL}, 'n_clicks')],
+          [Input({"type":"openmodal-btn", "table":ALL}, 'n_clicks')],
           [State("modal", "is_open")],
           prevent_initial_call=True
     )
-def add_line_callback(clicks_add, is_open):
+def display_modal_callback(clicks_add, is_open):
     if clicks_add.count(None) == len(clicks_add):
         raise PreventUpdate
     ctx       = callback_context
     button_id = ctx.triggered_id
-    #Table with one row of empty input text that have as id the name of ther column and "table2add" var
     table2add = button_id["table"]
-    table_header =
+    columns   = tables[table2add]["cols_create"]
 
+    table_header = [html.Thead([html.Tr([html.Th(h) for h in columns])])]
+    table_rows   = [
+        html.Tbody(
+            [html.Tr([html.Td(get_input(col,"add-db-txt",table2add,"new",col, place_holder=True)) for col in columns])]
+        )
+    ]
+    table_full = dbc.Table(
+        table_header + table_rows,
+        bordered=True,
+        striped=True,
+    )
     modal_content = html.Div([
-        dbc.ModalHeader(dbc.ModalTitle(table2add)),
-        dbc.ModalBody("This is the content of the modal"),
-        dbc.ModalFooter(),
+        dbc.ModalHeader(dbc.ModalTitle(f"Adding one row to {table2add}")),
+        dbc.ModalBody(table_full),
+        dbc.ModalFooter(dbc.Button("Update", id={"type":"add-db-btn", "table":table2add}, color="primary")),
     ])
     return True, modal_content
 #------------------------------------------------------------------------------------
+@callback([Output("modal", "is_open", allow_duplicate=True), Output("sql-error", "children", allow_duplicate=True),],
+        [Input({"type":"add-db-btn", "table": ALL}, 'n_clicks'), ],
+        [State({"type":"add-db-txt", "table": ALL, "row":"new", "col":ALL}, 'value'), State({"type":"add-db-txt", "table":ALL,"row":"new", "col":ALL}, 'id')],
+       prevent_initial_call=True )
+def add_in_table(clicks, input_txt_values, input_txt_ids):
+    if clicks.count(None) == len(clicks):
+        raise PreventUpdate
+    ctx       = callback_context
+    button_id = ctx.triggered_id
+    table2add = button_id["table"]
+
+    values   = []
+    colsname = []
+    for v, i in zip(input_txt_values, input_txt_ids):
+        if i['table'] == table2add:
+            values.append(v)
+            colsname.append(i['col'])
+
+    return False, insert_row(table2add, colsname, values)
+
+
+
+#------------------------------------------------------------------------------------
 #-- Other functions
 #------------------------------------------------------------------------------------
-def get_input(text, table, row, col):
-    full_id = {"type":f"in-db", "table":table, "row":row, "col":col}
-    return dbc.Input(value=text, type="text", id=full_id),
+def get_input(text, type_, table, row, col, place_holder=False):
+    full_id = {"type":type_, "table":table, "row":row, "col":col}
+    if not place_holder:
+        return dbc.Input(value=text, type="text", id=full_id),
+    return dbc.Input(placeholder=text, type="text", id=full_id),
+
 
 # Takes a table name, a list of columns and a sql where condition, and return a html table
 # with input text field pre-filled with databse table content
@@ -155,10 +191,10 @@ def gen_table_with_inputs(table, cols, cond="1"):
     data         = get_db_data_as_df(table, cols, cond).to_dict('split')
     idx          = {data['columns'].index(colname): colname for colname in data['columns'] }
     table_header = [html.Thead([html.Tr([html.Th(h) for h in data['columns']])])]
-    last_row = [html.Tr([html.Td(dbc.Button(html.I(className="bi bi-plus-circle"), color="warning", id={"type":"add-db", "table":table}))])]
+    last_row = [html.Tr([html.Td(dbc.Button(html.I(className="bi bi-plus-circle"), color="warning", id={"type":"openmodal-btn", "table":table}))])]
     table_rows   = [
         html.Tbody(
-            [html.Tr([html.Td(get_input(elem,table,row[0],idx[row.index(elem)]) if row.index(elem) != 0 else elem) for elem in row]) for row in data['data']] +
+            [html.Tr([html.Td(get_input(elem,"in-db-txt",table,row[0],idx[row.index(elem)]) if row.index(elem) != 0 else elem) for elem in row]) for row in data['data']] +
             last_row
         )
     ]
