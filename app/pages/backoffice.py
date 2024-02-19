@@ -26,7 +26,7 @@ modal = html.Div(
         dbc.Modal(
             [
             ],
-            id="modal",
+            id="add-row-modal",
             is_open=False,
         ),
     ]
@@ -86,11 +86,15 @@ def display_tables_callback(tab):
             content.append(dbc.Table.from_dataframe(get_db_data_as_df(t, cols, cond), striped=True, bordered=True, hover=True))
     else:
         for t in tables:
-            cols = tables[t]["cols"]
-            cond = tables[t]["cond"]
-            tmp = gen_table_with_inputs(t, cols, cond)
-            content.append(html.Div([tmp, dbc.Button("Send", color="success", className="me-1", id={"type":"send-db", "totable":f"{t}"})]))
-            content.append(html.Br())
+            cols           = tables[t]["cols"]
+            cond           = tables[t]["cond"]
+            table_w_inputs = gen_table_with_inputs(t, cols, cond)
+            form = dbc.Form([
+                table_w_inputs,
+                dbc.Button("Send", color="success", className="me-1", id={"type":"send-db", "totable":f"{t}"}),
+                html.Br(),
+            ])
+            content.append(form)
     return html.Div(content)
 
 #------------------------------------------------------------------------------------
@@ -122,9 +126,9 @@ def update_tables_callback(clicks, values, ids):
     return res
 
 #------------------------------------------------------------------------------------
-@callback([Output("modal", "is_open"),Output("modal", "children")],
+@callback([Output("add-row-modal", "is_open"),Output("add-row-modal", "children")],
           [Input({"type":"openmodal-btn", "table":ALL}, 'n_clicks')],
-          [State("modal", "is_open")],
+          [State("add-row-modal", "is_open")],
           prevent_initial_call=True
     )
 def display_modal_callback(clicks_add, is_open):
@@ -148,12 +152,16 @@ def display_modal_callback(clicks_add, is_open):
     )
     modal_content = html.Div([
         dbc.ModalHeader(dbc.ModalTitle(f"Adding one row to {table2add}")),
-        dbc.ModalBody(table_full),
-        dbc.ModalFooter(dbc.Button("Update", id={"type":"add-db-btn", "table":table2add}, color="primary")),
+        dbc.ModalBody(
+            dbc.Form([
+                table_full,
+                dbc.Button("Update", id={"type":"add-db-btn", "table":table2add}, color="primary")
+            ])
+        ),
     ])
     return True, modal_content
 #------------------------------------------------------------------------------------
-@callback([Output("modal", "is_open", allow_duplicate=True), Output("sql-error", "children", allow_duplicate=True),],
+@callback([Output("add-row-modal", "is_open", allow_duplicate=True), Output("sql-error", "children", allow_duplicate=True), Output("card-tabs", "active_tab", allow_duplicate=True)],
         [Input({"type":"add-db-btn", "table": ALL}, 'n_clicks'), ],
         [State({"type":"add-db-txt", "table": ALL, "row":"new", "col":ALL}, 'value'), State({"type":"add-db-txt", "table":ALL,"row":"new", "col":ALL}, 'id')],
        prevent_initial_call=True )
@@ -171,7 +179,7 @@ def add_in_table(clicks, input_txt_values, input_txt_ids):
             values.append(v)
             colsname.append(i['col'])
 
-    return False, insert_row(table2add, colsname, values)
+    return False, insert_row(table2add, colsname, values), "tab-edit"
 
 
 
@@ -191,7 +199,7 @@ def gen_table_with_inputs(table, cols, cond="1"):
     data         = get_db_data_as_df(table, cols, cond).to_dict('split')
     idx          = {data['columns'].index(colname): colname for colname in data['columns'] }
     table_header = [html.Thead([html.Tr([html.Th(h) for h in data['columns']])])]
-    last_row = [html.Tr([html.Td(dbc.Button(html.I(className="bi bi-plus-circle"), color="warning", id={"type":"openmodal-btn", "table":table}))])]
+    last_row = [html.Tr([html.Td(dbc.Button(html.I(className="bi bi-plus-circle"), type='button', color="warning", id={"type":"openmodal-btn", "table":table}))])]
     table_rows   = [
         html.Tbody(
             [html.Tr([html.Td(get_input(elem,"in-db-txt",table,row[0],idx[row.index(elem)]) if row.index(elem) != 0 else elem) for elem in row]) for row in data['data']] +
