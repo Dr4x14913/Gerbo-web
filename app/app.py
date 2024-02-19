@@ -74,7 +74,7 @@ app.layout = html.Div(children=[
     # Header banner
     html.Div(children = [
         dcc.Link( # go back to home page when image is clicked
-            html.Img(src='assets/logo (2).png', id='logo'),
+            html.Img(src='assets/logo.png', id='logo'),
             href="/home", refresh=False , id='logo-link-to-home'
         ),
         get_navbar(dash.page_registry.values())
