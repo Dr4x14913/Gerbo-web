@@ -152,7 +152,7 @@ def display_modal_callback(clicks_add, is_open):
     table_header = [html.Thead([html.Tr([html.Th(h) for h in columns])])]
     table_rows   = [
         html.Tbody(
-            [html.Tr([html.Td(get_input(col,"add-db-txt",table2add,"new",col, place_holder=True)) for col in columns] + [html.Td([dbc.Button("s", color='danger')])])]
+            [html.Tr([html.Td(get_input(col,"add-db-txt",table2add,"new",col, place_holder=True)) for col in columns])]
         )
     ]
     table_full = dbc.Table(
