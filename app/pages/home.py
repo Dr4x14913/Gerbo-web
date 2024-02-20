@@ -101,6 +101,6 @@ def login_form(login_error_style):
     # Define login error div
     login_error = [html.Div(id='login-error', style=login_error_style, children = "Error: username or password is incorrect")]
 
-    return html.Div(id='login-form', children=username_entry+password_entry+login_btn+login_error)
+    return dbc.Form(username_entry+password_entry+login_btn+login_error, id='login-form')
 
 
