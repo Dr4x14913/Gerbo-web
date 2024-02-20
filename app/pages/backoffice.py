@@ -21,6 +21,15 @@ tables = {
 #------------------------------------------------------------------------------------
 dash.register_page(__name__)
 
+# Define phantom children (components that will be used in callbacks but aren't displayed yet)
+phantom_style    = {'display': 'none'}
+phantom_children = [
+    dbc.Tabs(id="card-tabs",        style=phantom_style),
+    dbc.Modal(id="add-row-modal",   style=phantom_style),
+    html.Div(id='sql-error',        style=phantom_style),
+    dbc.CardBody(id='card-content', style=phantom_style),
+]
+
 modal = html.Div(
     [
         dbc.Modal(
@@ -49,8 +58,9 @@ card =  dbc.Card(
     ]
 )
 content = [card, modal]
+
 layout = html.Div([
-    html.Div([], id='backoffice-content'),
+    html.Div(phantom_children, id='backoffice-content'),
 ])
 
 #------------------------------------------------------------------------------------
