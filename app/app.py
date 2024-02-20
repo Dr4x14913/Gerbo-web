@@ -54,13 +54,13 @@ print('Admin user created!')
 #-- Front functions
 #--------------------------------------------------------------------------------------------------------
 
-def get_navbar(pages)->html.Div:
+def get_navbar(pages, current_user)->html.Div:
     """TODO"""
-    user = html.Div([f"Not logged"], id="user-display")
+    logged_txt = "Not logged" if current_user is None else current_user
+    user = html.Div([logged_txt], id="user-display")
     rows = [
         (dbc.NavLink(page['name'], href=page['relative_path'], class_name='navlink'))
-        for page in pages
-        if page["name"] != "Home" # home n'est pas pris en compte dans la navbar
+        for page in pages if not (page["name"] == "Home" or page['name'] == 'Backoffice' and current_user != 'admin') # home n'est pas pris en compte dans la navbar
     ] + [user]
     navbar = html.Div(children = rows, id='navbar')
     return navbar
@@ -77,7 +77,7 @@ app.layout = html.Div(children=[
             html.Img(src='assets/logo.png', id='logo'),
             href="/home", refresh=False , id='logo-link-to-home'
         ),
-        get_navbar(dash.page_registry.values())
+        get_navbar(dash.page_registry.values(), None)
     ], id='header'),
 
     # Page
@@ -109,14 +109,11 @@ def redirect_to_home(current_pathname):
 
 # Redirects user to home page on first app load ('/' -> '/home')
 @app.callback(
-    Output(component_id='user-display', component_property='children'),
+    Output(component_id='navbar', component_property='children'),
     Input(component_id='CURRENT_USER', component_property='data')
 )
-def show_current_user(current_user):
-    if current_user is None:
-        return 'Not logged'
-    else:
-        return f'Logged as {current_user}'
+def navbar_callback(current_user):
+    return get_navbar(dash.page_registry.values(), current_user)
 
 #--------------------------------------------------------------------------------------------------------
 #-- MAIN
