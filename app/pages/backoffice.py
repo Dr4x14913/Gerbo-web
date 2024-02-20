@@ -3,7 +3,7 @@ from dash.exceptions import PreventUpdate
 from dash import html, dcc, callback, Input, Output, State, ALL, callback_context
 import dash_bootstrap_components as dbc
 import pandas as pd
-from backoffice_manager import get_db_data_as_df, update_table, insert_row
+from backoffice_manager import get_db_data_as_df, update_table, insert_row, del_row
 
 tables = {
         "users": {
@@ -142,7 +142,7 @@ def display_modal_callback(clicks_add, is_open):
     table_header = [html.Thead([html.Tr([html.Th(h) for h in columns])])]
     table_rows   = [
         html.Tbody(
-            [html.Tr([html.Td(get_input(col,"add-db-txt",table2add,"new",col, place_holder=True)) for col in columns])]
+            [html.Tr([html.Td(get_input(col,"add-db-txt",table2add,"new",col, place_holder=True)) for col in columns] + [html.Td([dbc.Button("s", color='danger')])])]
         )
     ]
     table_full = dbc.Table(
@@ -182,6 +182,20 @@ def add_in_table(clicks, input_txt_values, input_txt_ids):
     return False, insert_row(table2add, colsname, values), "tab-edit"
 
 
+#------------------------------------------------------------------------------------
+@callback([Output("sql-error", "children", allow_duplicate=True), Output("card-tabs", "active_tab", allow_duplicate=True)],
+        [Input({'type':'del-db-btn', 'row':ALL, 'col':ALL, 'table': ALL}, 'n_clicks')],
+          prevent_initial_call=True,
+        )
+def del_row_callback(clicks):
+    if clicks.count(None) == len(clicks):
+        raise PreventUpdate
+    ctx       = callback_context
+    button_id = ctx.triggered_id
+    table     = button_id["table"]
+    row       = button_id["row"]
+    col       = button_id["col"]
+    return del_row(table, row, col), 'tab-edit'
 
 #------------------------------------------------------------------------------------
 #-- Other functions
@@ -202,8 +216,12 @@ def gen_table_with_inputs(table, cols, cond="1"):
     last_row = [html.Tr([html.Td(dbc.Button(html.I(className="bi bi-plus-circle"), type='button', color="warning", id={"type":"openmodal-btn", "table":table}))])]
     table_rows   = [
         html.Tbody([
-            html.Tr([html.Td(get_input(elem,"in-db-txt",table,row[0],idx[row.index(elem)]) if row.index(elem) != 0 else elem) for elem in row]) for row in data['data']
-        ] + last_row)
+            html.Tr([
+                html.Td(get_input(elem,"in-db-txt",table,row[0],idx[row.index(elem)]) if row.index(elem) != 0 else elem)
+                for elem in row ] + [html.Td(dbc.Button(html.I(className='bi bi-x-square'), color='danger', type='button', id={'type':'del-db-btn', 'row':row[0], 'col':idx[0], 'table':table}), className='text-center')]
+                )
+            for row in data['data'] ] + last_row
+        )
     ]
     table = dbc.Table(
         table_header + table_rows,

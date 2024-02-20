@@ -34,3 +34,12 @@ def insert_row(table, cols, values):
         return f"Error: {e}"
     return ""
 
+def del_row(table, row, col):
+    try:
+        db = Sql(MYSQL_DATABASE, DB_HOST='db', DB_USER=MYSQL_USER, DB_PASS=MYSQL_PASSWORD)
+        sql_req = f"DELETE FROM {table} WHERE {col}='{row}'"
+        db.insert(sql_req)
+        db.close()
+    except Exception as e:
+        return f"Error: {e}"
+    return ""
