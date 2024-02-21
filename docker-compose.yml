@@ -25,10 +25,10 @@ services:
       - datastream
     healthcheck:
       test: ["CMD-SHELL", "mariadb -uroot -proot_password -e 'use website;'"]
-      interval: 5s
-      timeout: 5s
+      interval: 30s
+      timeout: 15s
       retries: 5
-      start_period: 5s
+      start_period: 30s
 
   app:
     build:
