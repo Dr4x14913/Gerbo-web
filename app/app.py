@@ -15,30 +15,6 @@ from dash.exceptions import PreventUpdate
 db = Sql(MYSQL_DATABASE, DB_HOST='db', DB_USER=MYSQL_USER, DB_PASS=MYSQL_PASSWORD)
 print("Connection successful!")
 
-
-# Create the "teams" table
-db.insert("""
-CREATE TABLE IF NOT EXISTS `teams` (
-    `id` INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    `name` VARCHAR(30) UNIQUE,
-    `color` VARCHAR(30),
-    `registration_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-    )""")
-
-
-# Create the "users" table
-db.insert("""
-CREATE TABLE IF NOT EXISTS `users` (
-    `id` INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    `username` VARCHAR(30) NOT NULL UNIQUE,
-    `password` VARCHAR(100) NOT NULL,
-    `display_name` VARCHAR(50),
-    `team` VARCHAR(50),
-    `avatar_name` VARCHAR(50),
-    `registration_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT `existing_team`
-        FOREIGN KEY (team) REFERENCES teams (name)
-    )""")
 # Insert an admin user with username "admin", password set at "123" and email "admin@example.com"
 db.insert(f"""
     INSERT INTO users (username, password)
