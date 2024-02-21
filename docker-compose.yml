@@ -24,8 +24,7 @@ services:
     networks:
       - datastream
     healthcheck:
-      # test: ["CMD-SHELL", "mariadb -u${MYSQL_USER} -p${MYSQL_PASSWORD} -e use ${MYSQL_DATABASE}"]
-      test: ["CMD-SHELL", "echo ${MYSQL_USER} ${MYSQL_DATABASE}"]
+      test: ["CMD-SHELL", "mariadb -uroot -proot_password -e 'use website;'"]
       interval: 5s
       timeout: 5s
       retries: 5
