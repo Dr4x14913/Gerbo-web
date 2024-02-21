@@ -222,7 +222,7 @@ def get_input(text, type_, table, row, col, place_holder=False):
 def gen_table_with_inputs(table, cols, cond="1"):
     data         = get_db_data_as_df(table, cols, cond).to_dict('split')
     idx          = {data['columns'].index(colname): colname for colname in data['columns'] }
-    table_header = [html.Thead([html.Tr([html.Th(h) for h in data['columns']])])]
+    table_header = [html.Thead([html.Tr([html.Th(h) for h in data['columns']] + [html.Th()])])]
     last_row = [html.Tr([html.Td(dbc.Button(html.I(className="bi bi-plus-circle"), type='button', color="warning", id={"type":"openmodal-btn", "table":table}))])]
     table_rows   = [
         html.Tbody([
