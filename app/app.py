@@ -44,7 +44,7 @@ def get_navbar(pages, current_user)->html.Div:
 #--------------------------------------------------------------------------------------------------------
 #-- APP init
 #--------------------------------------------------------------------------------------------------------
-app = dash.Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.BOOTSTRAP])
+app = dash.Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.SUPERHERO, dbc.icons.BOOTSTRAP])
 
 app.layout = html.Div(children=[
     # Header banner
