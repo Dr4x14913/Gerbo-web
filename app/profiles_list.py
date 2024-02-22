@@ -96,7 +96,6 @@ def set_display_name(user, name):
         return 1
     return 0
 
-
 def get_display_name(user):
     # Make SQL request
     cols = ["display_name"]
@@ -116,4 +115,12 @@ def get_display_name(user):
     display_name = df.display_name.iloc[0]
     return display_name
 
-
+def set_password(user, pswd):
+    req = f"UPDATE users SET password='{pswd}' WHERE username = '{user}'"
+    try:
+        db = Sql(MYSQL_DATABASE, DB_HOST='db', DB_USER=MYSQL_USER, DB_PASS=MYSQL_PASSWORD)
+        db.insert(req)
+        db.close()
+    except Exception as e:
+        return 1
+    return 0
