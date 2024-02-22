@@ -117,7 +117,7 @@ def gen_fade_change_pswd():
                     dbc.CardBody(
                         dbc.Form([
                             dbc.InputGroup([
-                                dbc.Input(type='password', id='pswd-in'),
+                                dbc.Input(type='password', id='pswd-in', placeholder="New password"),
                                 dbc.Button(html.I(className='bi bi-check-circle-fill'), id='pswd-btn'),
                             ])
                         ])
