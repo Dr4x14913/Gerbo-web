@@ -1,16 +1,19 @@
 import dash
 from dash import html, dcc, callback, Input, Output, State
 import dash_bootstrap_components as dbc
-from profiles_list import get_profile, get_avatar, set_display_name
+from profiles_list import get_profile, get_avatar, set_display_name, get_display_name
 from dash.exceptions import PreventUpdate
 #------------------------------------------------------------------------------------
 dash.register_page(__name__)
 
+phantom_style    = {'display': 'none'}
+phantom_children = [
+    html.Div(id='change-name-res',        style=phantom_style)
+]
 
 
 layout = html.Div([
-    html.Div(id='profile-content'),
-    html.Br(),
+    html.Div(phantom_children, id='profile-content')
 ])
 
 
@@ -39,9 +42,21 @@ def change_display_name(clicks, user, name):
     if set_display_name(user, name): # Return 1 when sql error occured
         alert = dbc.Alert("Something went wrong, please try again later", color='danger', duration=4000)
         return alert
-    else:
-        alert = dbc.Alert("Name successfully changed", color='success', duration=4000)
-        return alert # False to close the fade
+    
+    alert = dbc.Alert("Name successfully changed", color='success', duration=4000)
+    return alert # False to close the fade
+
+
+#-----------------------------------------------------------------------------------
+@callback(
+    Output("profile-table", "children"),
+    [Input("change-name-res", "children")],
+    [State("CURRENT_USER", "data")], 
+)
+def update_table(dummy, user):
+    return gen_table(user)
+
+
 
 #------------------------------------------------------------------------------------
 @callback(
@@ -50,14 +65,16 @@ def change_display_name(clicks, user, name):
     [State("CURRENT_USER", "data")]
 )
 def display_profile_callback(dummy, user):
+
     # if user not connected
     if (user is None) or (user == "None"):
         return html.Div(['You are nor log yet, please go ', dcc.Link("back home", href="home"), ' for loggin'])
-
-    data  = get_profile(user)
+    
     image = get_avatar(user)
-    component = gen_component(data, image)
-    fade = gen_fade(data['Nom'])
+    actual_name = get_display_name(user)
+    
+    component = gen_component(user, image)
+    fade = gen_fade(actual_name)
     return html.Div([component, fade])
 
 
@@ -88,17 +105,20 @@ def gen_fade(display_name):
     )
     return fade
 
-def gen_component(data, image):
+def gen_table(user):
+    data  = get_profile(user)
+
+    rows = [html.Tr([html.Td(key), html.Td(value)]) for key, value in data.items()]
+    table_body = [html.Tbody(rows)]
+    table = dbc.Table(table_body, bordered=True, id="profile-table")
+
+    return table
+
+def gen_component(user, image):
+    table = gen_table(user)
+
     component = html.Div((
         [html.Img(src=image, id='avatar')] + # avatar image
-        [ # feature list
-            html.Div([
-                html.Div(key, className="feature-label"),
-                html.Div(":", className="feature-separator"),
-                html.Div(value, className="feature-value"),
-            ], className="feature")
-
-            for key, value in data.items()
-        ]
+        [table]
     ), id="profile-informations")
     return component

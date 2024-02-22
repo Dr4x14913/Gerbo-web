@@ -97,3 +97,23 @@ def set_display_name(user, name):
     return 0
 
 
+def get_display_name(user):
+    # Make SQL request
+    cols = ["display_name"]
+    sql_cols = ", ".join(cols)
+    req = f"select {sql_cols} from users WHERE username = '{user}';"
+
+    # Connect and request database
+    db = Sql(MYSQL_DATABASE, DB_HOST='db', DB_USER=MYSQL_USER, DB_PASS=MYSQL_PASSWORD)
+    df = db.select_to_df(req, cols)
+    db.close()
+
+    # if no display_name
+    if df.shape[0] == 0:
+        # return the user name
+        return user
+
+    display_name = df.display_name.iloc[0]
+    return display_name
+
+
