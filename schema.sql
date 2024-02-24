@@ -51,7 +51,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `username` (`username`),
   KEY `existing_team` (`team`),
   CONSTRAINT `existing_team` FOREIGN KEY (`team`) REFERENCES `teams` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -87,4 +87,27 @@ CREATE TABLE `pronosResults` (
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+DROP TABLE IF EXISTS `puzzles`;
+CREATE TABLE `puzzles` (
+  `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL,
+  `code` varchar(30) NOT NULL,
+  `statement` varchar(256) NOT NULL,
+  `reward_img` varchar(30) NOT NULL,
+  `reward_txt` varchar(256) NOT NULL,
+  UNIQUE KEY `name` (`name`),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+DROP TABLE IF EXISTS `puzzles_hints`;
+CREATE TABLE `puzzles_hints` (
+  `puzzle`      varchar(30) NULL,
+  `hint_number` varchar(30) NOT NULL,
+  `hint`        varchar(256) NOT NULL,
+  CONSTRAINT `puzzle_name_constraint` FOREIGN KEY (`puzzle`) REFERENCES `puzzles` (`name`),
+  PRIMARY KEY (`puzzle`, `hint_number`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 -- Dump completed on 2024-02-21 20:25:03
