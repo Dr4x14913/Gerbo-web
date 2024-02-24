@@ -26,6 +26,11 @@ tables = {
             "cond": "1",
             "cols_create": [],
             },
+        "puzzles": {
+            "cols": ["id", "name", "code", "statement", "reward_img", "reward_txt"],
+            "cond": "1",
+            "cols_create": ["id", "name", "code", "statement", "reward_img", "reward_txt"]
+            },
         }
 
 #------------------------------------------------------------------------------------
