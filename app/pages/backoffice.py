@@ -15,7 +15,17 @@ tables = {
             "cols": ["name", "color"],
             "cond": "1",
             "cols_create": ["name", "color"],
-            }
+           },
+        "pronos": {
+            "cols": ["name", "choices", "label"],
+            "cond": "1",
+            "cols_create": ["name", "choices", "label"],
+            },
+        "pronosResults": {
+            "cols": ["prono_name", "username", "vote", "time"],
+            "cond": "1",
+            "cols_create": [],
+            },
         }
 
 #------------------------------------------------------------------------------------
@@ -100,9 +110,9 @@ def display_tables_callback(tab):
             cond           = tables[t]["cond"]
             table_w_inputs = gen_table_with_inputs(t, cols, cond)
             form = dbc.Form([
+                html.H4(dbc.Badge(t)),
                 table_w_inputs,
                 dbc.Button("Send", color="success", className="me-1", id={"type":"send-db", "totable":f"{t}"}),
-                html.Br(),
             ])
             content.append(form)
     return html.Div(content)

@@ -55,6 +55,31 @@ CREATE TABLE `users` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
+DROP TABLE IF EXISTS `pronos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pronos` (
+  `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
+  `name`    varchar(30) NOT NULL,
+  `choices` varchar(1024) NOT NULL,
+  `label`   varchar(50)   NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+DROP TABLE IF EXISTS `pronosResults`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pronosResults` (
+  `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
+  `prono_name` varchar(30) NOT NULL,
+  `username` varchar(30) NOT NULL,
+  `vote`   varchar(256)  NOT NULL,
+  `time` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  CONSTRAINT `prono_name_constraint` FOREIGN KEY (`prono_name`) REFERENCES `pronos` (`name`),
+  CONSTRAINT `username_constraint` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
@@ -62,5 +87,4 @@ CREATE TABLE `users` (
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
 -- Dump completed on 2024-02-21 20:25:03
