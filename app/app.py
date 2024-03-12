@@ -24,7 +24,7 @@ db.insert(f"""
     ) LIMIT 1
 """)
 print('Admin user created!')
-
+db.close()
 
 #--------------------------------------------------------------------------------------------------------
 #-- Front functions
@@ -33,28 +33,38 @@ print('Admin user created!')
 def get_navbar(pages, current_user)->html.Div:
     """TODO"""
     logged_txt = "Not logged" if current_user is None else current_user
-    user = html.Div([logged_txt], id="user-display")
-    rows = [
-        (dbc.NavLink(page['name'], href=page['relative_path'], class_name='navlink'))
+    logo = dbc.Col([
+            dbc.NavLink( # go back to home page when image is clicked
+                html.Img(src='assets/logo.png', id='logo'),
+                href="/home", id='logo-link-to-home',
+                class_name='navlink',
+            )
+        ])
+    user = dbc.Col([logged_txt], id="user-display")
+    cols = [logo] + [
+        dbc.Col([dbc.NavLink(page['name'], href=page['relative_path'], class_name='navlink')])
         for page in pages if not (page["name"] == "Home" or page['name'] == 'Backoffice' and current_user != 'admin') # home n'est pas pris en compte dans la navbar
     ] + [user]
-    navbar = html.Div(children = rows, id='navbar')
+    navbar = dbc.Navbar([dbc.Row(cols)], id='header')
     return navbar
 
 #--------------------------------------------------------------------------------------------------------
 #-- APP init
 #--------------------------------------------------------------------------------------------------------
-app = dash.Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.SUPERHERO, dbc.icons.BOOTSTRAP])
+# app = dash.Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.SUPERHERO, dbc.icons.BOOTSTRAP])
+app = dash.Dash(__name__,
+                use_pages=True,
+                external_stylesheets=[dbc.themes.QUARTZ, dbc.icons.BOOTSTRAP],
+                meta_tags=[
+                    {"name": "viewport", "content": "width=device-width, initial-scale=1"}
+                ]
+)
 
 app.layout = html.Div(children=[
     # Header banner
-    html.Div(children = [
-        dcc.Link( # go back to home page when image is clicked
-            html.Img(src='assets/logo.png', id='logo'),
-            href="/home", refresh=False , id='logo-link-to-home'
-        ),
-        get_navbar(dash.page_registry.values(), None)
-    ], id='header'),
+    # html.Div(children = [
+        get_navbar(dash.page_registry.values(), None),
+    # ], id='header'),
 
     # Page
     dash.page_container,
@@ -85,7 +95,7 @@ def redirect_to_home(current_pathname):
 
 # Redirects user to home page on first app load ('/' -> '/home')
 @app.callback(
-    Output(component_id='navbar', component_property='children'),
+    Output(component_id='header', component_property='children'),
     Input(component_id='CURRENT_USER', component_property='data')
 )
 def navbar_callback(current_user):

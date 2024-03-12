@@ -92,22 +92,33 @@ DROP TABLE IF EXISTS `puzzles`;
 CREATE TABLE `puzzles` (
   `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
-  `code` varchar(30) NOT NULL,
+  `solution` varchar(30) NOT NULL,
   `statement` varchar(256) NOT NULL,
-  `reward_img` varchar(30) NOT NULL,
-  `reward_txt` varchar(256) NOT NULL,
   UNIQUE KEY `name` (`name`),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `puzzles_hints`;
 CREATE TABLE `puzzles_hints` (
+  `id`          int(6) unsigned NOT NULL AUTO_INCREMENT,
   `puzzle`      varchar(30) NULL,
-  `hint_number` varchar(30) NOT NULL,
+  `hint_number` int(6) NOT NULL,
   `hint`        varchar(256) NOT NULL,
+  `depends`     varchar(30) NULL,
   CONSTRAINT `puzzle_name_constraint` FOREIGN KEY (`puzzle`) REFERENCES `puzzles` (`name`),
+  CONSTRAINT `depends_constraint`     FOREIGN KEY (`depends`) REFERENCES `puzzles` (`name`),
+  UNIQUE KEY `id` (`id`),
   PRIMARY KEY (`puzzle`, `hint_number`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
+DROP TABLE IF EXISTS `puzzles_success`;
+CREATE TABLE `puzzles_success` (
+  `id`          int(6) unsigned NOT NULL AUTO_INCREMENT,
+  `puzzle`      varchar(30) NULL,
+  `team`        varchar(256) NOT NULL,
+  CONSTRAINT `puzzle_success_constraint` FOREIGN KEY (`puzzle`) REFERENCES `puzzles` (`name`),
+  CONSTRAINT `team_success_constraint` FOREIGN KEY (`team`) REFERENCES `teams` (`name`),
+  UNIQUE KEY `id` (`id`),
+  PRIMARY KEY (`puzzle`, `team`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 -- Dump completed on 2024-02-21 20:25:03

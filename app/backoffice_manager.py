@@ -16,8 +16,8 @@ def update_table(table, update_dict, colname):
     """
     try:
         db = Sql(MYSQL_DATABASE, DB_HOST='db', DB_USER=MYSQL_USER, DB_PASS=MYSQL_PASSWORD)
-        for user in update_dict:
-            sql_req = f"UPDATE {table} SET " + ", ".join([f"{c}='{v}'" for c,v in update_dict[user].items()]) + f" WHERE {colname}='{user}'"
+        for cond in update_dict:
+            sql_req = f"UPDATE {table} SET " + ", ".join([f'{c}="{v}"' for c,v in update_dict[cond].items()]) + f' WHERE {colname}="{cond}"'
             db.insert(sql_req)
         db.close()
     except Exception as e:
@@ -27,7 +27,7 @@ def update_table(table, update_dict, colname):
 def insert_row(table, cols, values):
     try:
         db = Sql(MYSQL_DATABASE, DB_HOST='db', DB_USER=MYSQL_USER, DB_PASS=MYSQL_PASSWORD)
-        sql_req = f"INSERT INTO {table} (" + ", ".join(cols) + ") VALUES (" + ", ".join([f"'{i}'" for i in values])  + ")"
+        sql_req = f"INSERT INTO {table} (" + ", ".join(cols) + ") VALUES (" + ", ".join([f'"{i}"' for i in values])  + ")"
         db.insert(sql_req)
         db.close()
     except Exception as e:
@@ -37,7 +37,7 @@ def insert_row(table, cols, values):
 def del_row(table, row, col):
     try:
         db = Sql(MYSQL_DATABASE, DB_HOST='db', DB_USER=MYSQL_USER, DB_PASS=MYSQL_PASSWORD)
-        sql_req = f"DELETE FROM {table} WHERE {col}='{row}'"
+        sql_req = f'DELETE FROM {table} WHERE {col}="{row}"'
         db.insert(sql_req)
         db.close()
     except Exception as e:

@@ -27,9 +27,19 @@ tables = {
             "cols_create": [],
             },
         "puzzles": {
-            "cols": ["id", "name", "code", "statement", "reward_img", "reward_txt"],
+            "cols": ["name", "solution", "statement"],
             "cond": "1",
-            "cols_create": ["id", "name", "code", "statement", "reward_img", "reward_txt"]
+            "cols_create": ["name", "solution", "statement"]
+            },
+        "puzzles_hints": {
+            "cols": ["id", "puzzle", "hint", "hint_number", "depends"],
+            "cond": "1",
+            "cols_create": ["puzzle", "hint", "hint_number", "depends"],
+            },
+        "puzzles_success": {
+            "cols": ["id", "puzzle", "team"],
+            "cond": "1",
+            "cols_create": ["puzzle", "team"],
             },
         }
 
@@ -106,6 +116,7 @@ def display_tables_callback(tab):
     content = []
     if tab == "tab-show":
         for t in tables:
+            content.append(html.H4(dbc.Badge(t)))
             cols = tables[t]["cols"]
             cond = tables[t]["cond"]
             content.append(dbc.Table.from_dataframe(get_db_data_as_df(t, cols, cond), striped=True, bordered=True, hover=True))

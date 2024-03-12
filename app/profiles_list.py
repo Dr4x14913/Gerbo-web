@@ -78,7 +78,7 @@ def get_avatar(user):
     db.close()
 
     # if no avatar image
-    if df_avatar.shape[0] == 0:
+    if df_avatar.shape[0] == 0 or df_avatar.avatar_name.iloc[0] is None:
         # return default avatar
         return "assets/logo.png"
 

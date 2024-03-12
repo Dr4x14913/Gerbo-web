@@ -2,18 +2,9 @@ import pandas as pd
 import numpy as np
 from sql import *
 
-team_colors = {
-    "Rouge": "danger",
-    "Bleu": "primary",
-    "Jaune": "warning",
-    "Verte": "success",
-    "GENERIC": "secondary",
-}
-
 # ------------ Functions --------------
-
 def get_team_color(team_str):
-    # Make SQL request 
+    # Make SQL request
     cols = ["color"]
     sql_cols = ", ".join(cols)
     req = f"select {sql_cols} from teams where name = '{team_str}';"
@@ -27,7 +18,7 @@ def get_team_color(team_str):
 
 
 def get_all_teams():
-    # Make SQL request 
+    # Make SQL request
     cols = ["team", "display_name"]
     sql_cols = ", ".join(cols)
     req = f"select {sql_cols} from users WHERE username <> 'admin';"

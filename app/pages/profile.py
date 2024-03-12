@@ -19,6 +19,24 @@ layout = html.Div([
 
 #------------------------------------------------------------------------------------
 @callback(
+    Output("profile-content", "children"),
+    [Input("profile-content", "children")],
+    [State("CURRENT_USER", "data")]
+)
+def display_profile_callback(dummy, user):
+    # if user not connected
+    if (user is None) or (user == "None"):
+        return html.Div(['You are nor log yet, please go ', dcc.Link("back home", href="home"), ' for loggin'])
+
+    image       = get_avatar(user)
+    actual_name = get_display_name(user)
+    component   = gen_component(user, image)
+    change_name = gen_fade_change_name(actual_name)
+    change_pswd = gen_fade_change_pswd()
+
+    return html.Div([component, change_name, change_pswd])
+#------------------------------------------------------------------------------------
+@callback(
     Output("fade-change-pswd", "is_in"),
     [Input("fade-change-pswd-btn", "n_clicks")],
     [State("fade-change-pswd", "is_in")],
@@ -84,27 +102,6 @@ def change_display_name(clicks, user, name):
 def update_table(dummy, user):
     return gen_table(user)
 
-
-
-#------------------------------------------------------------------------------------
-@callback(
-    Output("profile-content", "children"),
-    [Input("profile-content", "children")],
-    [State("CURRENT_USER", "data")]
-)
-def display_profile_callback(dummy, user):
-
-    # if user not connected
-    if (user is None) or (user == "None"):
-        return html.Div(['You are nor log yet, please go ', dcc.Link("back home", href="home"), ' for loggin'])
-
-    image       = get_avatar(user)
-    actual_name = get_display_name(user)
-    component   = gen_component(user, image)
-    change_name = gen_fade_change_name(actual_name)
-    change_pswd = gen_fade_change_pswd()
-
-    return html.Div([component, change_name, change_pswd])
 #------------------------------------------------------------------------------------
 def gen_fade_change_pswd():
     fade = html.Div(
