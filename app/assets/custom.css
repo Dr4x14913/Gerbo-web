@@ -16,35 +16,29 @@
 #header{
     display: flex;
     flex-direction: row;
-    /* height: 5rem; */
+    height: 5rem;
     object-fit: contain;
     gap:1rem;
     align-items: center;
     background-color: rgb(225, 225, 225, 0.9);
-    /* padding:1rem; */
+    padding:1rem;
     font-size:large;
     border-radius: 0.5rem;
     white-space: nowrap;
     width: 100%;
     vertical-align:middle;
-}
-
-.navlink {
-  color: black;
-}
-.navlink:hover{
     color: black;
-    text-decoration: underline;
 }
 
 #logo{
-  width: 40%;
+  width: 10%;
+  object-fit: contain;
 }
 
-#logo-link-to-home{
-    object-fit: contain;
-    height: 100%;
-}
+/* #logo-link-to-home{ */
+/*     object-fit: contain; */
+/*     height: 100%; */
+/* } */
 
 #user-display{
     color: black;

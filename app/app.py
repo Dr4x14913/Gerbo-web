@@ -33,19 +33,13 @@ db.close()
 def get_navbar(pages, current_user)->html.Div:
     """TODO"""
     logged_txt = "Not logged" if current_user is None else current_user
-    logo = dbc.Col([
-            dbc.NavLink( # go back to home page when image is clicked
-                html.Img(src='assets/logo.png', id='logo'),
-                href="/home", id='logo-link-to-home',
-                class_name='navlink',
-            )
-        ])
-    user = dbc.Col([logged_txt], id="user-display")
-    cols = [logo] + [
-        dbc.Col([dbc.NavLink(page['name'], href=page['relative_path'], class_name='navlink')])
+    logo = html.Img(src='assets/logo.png', id='logo')
+    user = dbc.NavItem(dbc.NavLink(logged_txt), id="user-display")
+    items = [
+        dbc.NavItem(dbc.NavLink(page['name'], href=page['relative_path']))
         for page in pages if not (page["name"] == "Home" or page['name'] == 'Backoffice' and current_user != 'admin') # home n'est pas pris en compte dans la navbar
     ] + [user]
-    navbar = dbc.Navbar([dbc.Row(cols)], id='header')
+    navbar = dbc.NavbarSimple(items, brand=logo, brand_href='/home', id='header')
     return navbar
 
 #--------------------------------------------------------------------------------------------------------
@@ -62,9 +56,9 @@ app = dash.Dash(__name__,
 
 app.layout = html.Div(children=[
     # Header banner
-    # html.Div(children = [
+     html.Div(children = [
         get_navbar(dash.page_registry.values(), None),
-    # ], id='header'),
+     ], id='navbar-container'),
 
     # Page
     dash.page_container,
@@ -95,7 +89,7 @@ def redirect_to_home(current_pathname):
 
 # Redirects user to home page on first app load ('/' -> '/home')
 @app.callback(
-    Output(component_id='header', component_property='children'),
+    Output(component_id='navbar-container', component_property='children'),
     Input(component_id='CURRENT_USER', component_property='data')
 )
 def navbar_callback(current_user):
