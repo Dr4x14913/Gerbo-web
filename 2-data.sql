@@ -56,7 +56,7 @@ INSERT INTO `puzzles_hints` VALUES
 (9,'E5',1,'Mon tout est le prénom de quelqu\'un que vous connaissez','E8'),
 (11,'E6',1,'Alcool','E2'),
 (12,'E6',2,'Fort','E13'),
-(13,'E6',3,'crazy tiger','E6'),
+(13,'E6',3,'crazy tiger','E13'),
 (14,'E7',1,'assets/puzzles/bouteille.png','E5'),
 (15,'E7',2,'Prenom','E3'),
 (16,'E8',1,'Son du canard','E10'),
