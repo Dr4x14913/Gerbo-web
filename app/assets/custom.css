@@ -31,14 +31,9 @@
 }
 
 #logo{
-  width: 10%;
+  max-height: 50px;
   object-fit: contain;
 }
-
-/* #logo-link-to-home{ */
-/*     object-fit: contain; */
-/*     height: 100%; */
-/* } */
 
 #user-display{
     color: black;
@@ -83,4 +78,3 @@
 .feature-value{
     display: inline-block;
 }
-

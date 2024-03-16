@@ -36,10 +36,13 @@ def get_navbar(pages, current_user)->html.Div:
     logo = html.Img(src='assets/logo.png', id='logo')
     user = dbc.NavItem(dbc.NavLink(logged_txt), id="user-display")
     items = [
-        dbc.NavItem(dbc.NavLink(page['name'], href=page['relative_path']))
+        dbc.DropdownMenuItem(dbc.NavLink(page['name'], href=page['relative_path']))
         for page in pages if not (page["name"] == "Home" or page['name'] == 'Backoffice' and current_user != 'admin') # home n'est pas pris en compte dans la navbar
-    ] + [user]
-    navbar = dbc.NavbarSimple(items, brand=logo, brand_href='/home', id='header')
+    ]
+    navbar = dbc.NavbarSimple([
+        dbc.DropdownMenu(items, label='Pages'),
+        user,
+        ], brand=logo, brand_href='/home', id='header', expand=True)
     return navbar
 
 #--------------------------------------------------------------------------------------------------------
@@ -58,7 +61,7 @@ app.layout = html.Div(children=[
     # Header banner
      html.Div(children = [
         get_navbar(dash.page_registry.values(), None),
-     ], id='navbar-container'),
+        ], style={'width':"100%"}, id='navbar-container'),
 
     # Page
     dash.page_container,
