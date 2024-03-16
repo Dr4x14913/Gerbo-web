@@ -77,10 +77,10 @@ def to_html(cols, user):
         if n != last:
             # Create Card for puzzle
             card_body = dbc.CardBody([html.H4(n), html.H6(display(st))])
-            card_body.children.append(dbc.InputGroup([
-                dbc.Button(">", id={'type':'btn-soluce', 'puzzle':n}),
+            card_body.children.append(dbc.Form(dbc.InputGroup([
+                dbc.Button(">", id={'type':'btn-soluce', 'puzzle':n}, type='submit'),
                 dbc.Input(placeholder="Solutionnnnn", id={'type':'in-soluce', 'puzzle':n})
-            ]))
+            ])))
             card_body.children.extend([html.Br(), html.H6("Indices:")])
 
         # Display hints if they exists
