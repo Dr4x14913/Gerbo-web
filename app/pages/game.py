@@ -42,7 +42,8 @@ def soluce_callback(clicks, user, values, ids):
 
     color = 'danger'
     msg   = 'Nice try but no ...'
-    if any([i for i in soluces if i.lower() == suggested_soluce.lower()]):
+    # if answer is in the list of good solutions
+    if any([i for i in soluces if filter_string(i) == filter_string(suggested_soluce)]):
         status, msg = success_team_of_user(user, puzzle_triggered)
         if status == 0:
             color = 'success'
@@ -53,6 +54,21 @@ def soluce_callback(clicks, user, values, ids):
 
 
 # ------------ Other functions ---------------
+def filter_string(string):
+    illegal_char_map = {
+            "e": ['é', 'è', 'ë'],
+            "a": ['à'],
+            "": ["'", "%", "$", "*"]
+            }
+    string = string.lower()
+    for letter, illegal in illegal_char_map.items():
+        for c in illegal:
+            string = string.replace(c,letter)
+
+    # replace any blanck spaces more than 1 by one
+    return " ".join(string.split())
+
+
 def to_html(cols, user):
     cards     = []
     puzz_list = get_all_puzzles(cols)
