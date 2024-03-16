@@ -76,11 +76,12 @@ def to_html(cols, user):
     for n, st, h, hi, d in zip(*puzz_list.values()):
         if n != last:
             # Create Card for puzzle
-            card_body = dbc.CardBody([html.H4(n), html.H6(display(st))])
-            card_body.children.append(dbc.Form(dbc.InputGroup([
-                dbc.Button(">", id={'type':'btn-soluce', 'puzzle':n}, type='submit'),
-                dbc.Input(placeholder="Solutionnnnn", id={'type':'in-soluce', 'puzzle':n})
-            ])))
+            card_body = dbc.CardBody([html.H4(n), html.H6(display(st), style={'text-align':'center'})])
+            if not has_succeeded(get_team(user), n):
+                card_body.children.append(dbc.Form(dbc.InputGroup([
+                    dbc.Button(">", id={'type':'btn-soluce', 'puzzle':n}, type='submit'),
+                    dbc.Input(placeholder="Solutionnnnn", id={'type':'in-soluce', 'puzzle':n})
+                ])))
             card_body.children.extend([html.Br(), html.H6("Indices:")])
 
         # Display hints if they exists
@@ -106,6 +107,6 @@ def to_html(cols, user):
 def display(text):
     img_ext = ['png', 'jpg', 'jpeg']
     if any([i for i in img_ext if text.find(i) > -1]):
-        return html.Img(src=text, style={'width':'100%'})
+        return html.Img(src=text, style={'max-width':'100%'})
     else:
         return html.Div(text)
