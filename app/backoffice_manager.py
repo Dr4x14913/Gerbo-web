@@ -43,3 +43,16 @@ def del_row(table, row, col):
     except Exception as e:
         return f"Error: {e}"
     return ""
+
+def get_disabled_pages():
+    try:
+        db = Sql(MYSQL_DATABASE, DB_HOST='db', DB_USER=MYSQL_USER, DB_PASS=MYSQL_PASSWORD)
+        sql_req = f'SELECT * FROM disabled_pages'
+        pages = [p[0].lower() for p in db.select(sql_req)]
+        db.close()
+    except Exception as e:
+        pages = []
+    return pages;
+
+def log(a):
+    print(a, flush=True)

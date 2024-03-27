@@ -3,6 +3,7 @@ from dash import html, dcc, callback, Input, Output, State
 import dash_bootstrap_components as dbc
 from profiles_list import get_profile, get_avatar, get_display_name, set_display_name, set_password
 from dash.exceptions import PreventUpdate
+from backoffice_manager import get_disabled_pages
 #------------------------------------------------------------------------------------
 dash.register_page(__name__)
 
@@ -27,6 +28,9 @@ def display_profile_callback(dummy, user):
     # if user not connected
     if (user is None) or (user == "None"):
         return html.Div(['You are nor log yet, please go ', dcc.Link("back home", href="home"), ' for loggin'])
+
+    if str(__name__).split('.')[-1] in get_disabled_pages():
+        return html.Div(['You are not allowed to be here, please go away before Didjo la canaille te botte le derch'])
 
     image       = get_avatar(user)
     actual_name = get_display_name(user)

@@ -19,6 +19,15 @@
 -- Table structure for table `teams`
 --
 
+DROP TABLE IF EXISTS `disabled_pages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `disabled_pages` (
+  `page` varchar(30),
+  PRIMARY KEY (`page`)
+) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 DROP TABLE IF EXISTS `teams`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;

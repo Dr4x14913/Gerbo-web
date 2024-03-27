@@ -2,6 +2,7 @@ import dash
 from dash.exceptions import PreventUpdate
 from dash import html, dcc, callback, Input, Output, State, ALL, callback_context
 import dash_bootstrap_components as dbc
+from backoffice_manager import get_disabled_pages
 from game_manager import get_all_puzzles, get_solutions, get_team, success_team_of_user, has_succeeded
 
 dash.register_page(__name__)
@@ -20,7 +21,10 @@ layout = html.Div([
 def display_game_callback(dummy, user):
     # if user not connected
     if (user is None) or (user == "None"):
-        return html.Div(['You are nor log yet, please go ', dcc.Link("back home", href="home"), ' for loggin'])
+        return html.Div(['You are not log yet, please go ', dcc.Link("back home", href="home"), ' for loggin'])
+
+    if str(__name__).split('.')[-1] in get_disabled_pages():
+        return html.Div(['You are not allowed to be here, please go away before Didjo la canaille te botte le derch'])
 
     cards = to_html(COLS, user)
     return html.Div([] + cards)

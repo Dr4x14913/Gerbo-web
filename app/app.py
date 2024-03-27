@@ -6,6 +6,7 @@ from dash import dcc, html
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 from dash.exceptions import PreventUpdate
+from backoffice_manager import get_disabled_pages
 
 #--------------------------------------------------------------------------------------------------------
 #-- SQL init
@@ -37,7 +38,11 @@ def get_navbar(pages, current_user)->html.Div:
     user = dbc.NavItem(dbc.NavLink(logged_txt), id="user-display")
     items = [
         dbc.DropdownMenuItem(dbc.NavLink(page['name'], href=page['relative_path']))
-        for page in pages if not (page["name"] == "Home" or page['name'] == 'Backoffice' and current_user != 'admin') # home n'est pas pris en compte dans la navbar
+        for page in pages if not(
+            page["name"] == "Home" or # home n'est pas pris en compte dans la navbar
+            page['name'] == 'Backoffice' and current_user != 'admin' or
+            page['name'].lower() in get_disabled_pages()
+          )
     ]
     navbar = dbc.NavbarSimple([
         dbc.DropdownMenu(items, label='Pages'),
