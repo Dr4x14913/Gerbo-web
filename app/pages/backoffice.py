@@ -22,7 +22,7 @@ tables = {
             "cols_create": ["name", "choices", "label"],
             },
         "pronosResults": {
-            "cols": ["prono_name", "username", "vote", "time"],
+            "cols": ["id", "prono_name", "username", "vote", "time"],
             "cond": "1",
             "cols_create": [],
             },
