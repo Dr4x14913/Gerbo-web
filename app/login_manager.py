@@ -17,6 +17,6 @@ def login(user, password):
     if len(db_pass) == 0:
         return 0
     if  db_pass[0][0] == password:
-        return user
+        return user.lower()
 
     return 0
