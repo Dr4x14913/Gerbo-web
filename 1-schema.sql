@@ -18,9 +18,27 @@
 --
 -- Table structure for table `teams`
 --
+DROP TABLE IF EXISTS `schedule`;
+CREATE TABLE `schedule` (
+  `id`       int(6) unsigned NOT NULL AUTO_INCREMENT,
+  `day`      varchar(30),
+  `hour`     varchar(30),
+  `activity` varchar(256),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-DROP TABLE IF EXISTS `disabled_pages`;
+DROP TABLE IF EXISTS `menus`;
+CREATE TABLE `menus` (
+  `id`       int(6) unsigned NOT NULL AUTO_INCREMENT,
+  `day`      varchar(30),
+  `time`     varchar(30),
+  `menu`     varchar(256),
+  `orga`     varchar(256),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
+DROP TABLE IF EXISTS `disabled_pages`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `disabled_pages` (
   `page` varchar(30),

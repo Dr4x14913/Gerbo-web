@@ -46,6 +46,16 @@ tables = {
             "cond": "1",
             "cols_create": ["page"],
             },
+        "schedule": {
+            "cols": ["id", "day", "hour", "activity"],
+            "cond": "1",
+            "cols_create": ["day", "hour", "activity"],
+            },
+        "menus": {
+            "cols": ["id", "day", "time", "menu", "orga"],
+            "cond": "1",
+            "cols_create": ["day", "time", "menu", "orga"],
+            },
         }
 
 #------------------------------------------------------------------------------------
