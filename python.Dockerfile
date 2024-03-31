@@ -1,7 +1,7 @@
 FROM python:latest
 
 # Install dependencies
-RUN pip install dash mysql-connector-python flask pandas gunicorn dash-bootstrap-components
+RUN pip install dash mysql-connector-python flask pandas gunicorn dash-bootstrap-components gunicorn
 
 # Copy local code to the container image.
 COPY ./app /app
@@ -13,5 +13,4 @@ WORKDIR /app
 EXPOSE 8050
 
 # Run app with gunicorn, assuming your python file is named "app.py" and it's located at "/app"
-# CMD ["gunicorn", "-b", ":3000", "app:app"]
-CMD ["python", "app.py"]
+CMD ["gunicorn", "wsgi:application", "-b", ":8050", "-w", "6"]
