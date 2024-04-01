@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-04-01T13:54:37.569Z" agent="5.0 (X11)" etag="FlSugaQxOe0B4cgByyH4" version="20.8.22" type="github">
+<mxfile host="app.diagrams.net" modified="2024-04-01T14:34:53.137Z" agent="5.0 (X11)" etag="ccyE5nkdYETPnEWlLvtu" version="20.8.22" type="github">
   <diagram name="Page-1" id="5OA910BfqlxR7G4CdkLz">
     <mxGraphModel dx="774" dy="766" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -55,6 +55,9 @@
         <mxCell id="BWxNZt3LOjuyeGOOMp78-8" value="E1 héhéhé" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="160" y="240" width="120" height="60" as="geometry" />
         </mxCell>
+        <mxCell id="BWxNZt3LOjuyeGOOMp78-52" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="BWxNZt3LOjuyeGOOMp78-15" target="BWxNZt3LOjuyeGOOMp78-50">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="BWxNZt3LOjuyeGOOMp78-15" value="E4 la rirette" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="690" y="310" width="120" height="60" as="geometry" />
         </mxCell>
@@ -96,6 +99,9 @@
         </mxCell>
         <mxCell id="BWxNZt3LOjuyeGOOMp78-45" value="E14 bettrave" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="160" y="500" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BWxNZt3LOjuyeGOOMp78-50" value="&lt;div&gt;E15 poubelles enduirduill&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="690" y="490" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
