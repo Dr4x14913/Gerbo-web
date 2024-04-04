@@ -34,9 +34,9 @@ layout = html.Div(id='login-logout', children=phantom_children)
 )
 def display_login_or_logout(current_user, login_error_style):
     if current_user is None:
-        return login_form(login_error_style=login_error_style)
+        return [login_form(login_error_style=login_error_style), get_intro_video()]
     else:
-        return logout_form(current_user=current_user)
+        return [logout_form(current_user=current_user), get_intro_video()]
 
 # Logs the user out when logout button is clicked
 @callback(
@@ -103,4 +103,12 @@ def login_form(login_error_style):
 
     return dbc.Form(username_entry+password_entry+login_btn+login_error, id='login-form')
 
-
+def get_intro_video():
+    return html.Video(
+            controls = True,
+            id = 'movie_player',
+            # src = "https://www.youtube.com/watch?v=gPtn6hD7o8g",
+            src = "assets/intro.mp4",
+            autoPlay=True,
+            className='my-2 mw-100'
+        )
