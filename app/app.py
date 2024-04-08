@@ -16,10 +16,9 @@ from backoffice_manager import get_disabled_pages
 db = Sql(MYSQL_DATABASE, DB_HOST='db', DB_USER=MYSQL_USER, DB_PASS=MYSQL_PASSWORD)
 print("Connection successful!")
 
-# Insert an admin user with username "admin", password set at "123" and email "admin@example.com"
 db.insert(f"""
     INSERT INTO users (username, password)
-    SELECT * FROM (SELECT 'admin' as username, '123' as password) AS tmp
+    SELECT * FROM (SELECT 'admin' as username, '123zeub' as password) AS tmp
     WHERE NOT EXISTS (
         SELECT username FROM users WHERE username = 'admin'
     ) LIMIT 1
