@@ -172,7 +172,7 @@ def gen_component(user, image):
     table = gen_table(user)
 
     component = html.Div((
-        [html.Img(src=image, id='avatar')] + # avatar image
+        [html.Img(src=image, id='avatar', className='mw-100')] + # avatar image
         [table]
     ), id="profile-informations")
     return component
