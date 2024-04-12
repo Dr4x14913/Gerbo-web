@@ -268,7 +268,7 @@ def gen_table_with_inputs(table, cols, cond="1"):
     table_rows   = [
         html.Tbody([
             html.Tr([
-                html.Td(get_input(elem,"in-db-txt",table,row[0],idx[row.index(elem)]) if i != 0 else elem)
+                html.Td(get_input(elem,"in-db-txt",table,row[0],idx[i]) if i != 0 else elem)
                 for i, elem in zip(range(len(row)), row) ] + [html.Td(dbc.Button(html.I(className='bi bi-x-square'), color='danger', type='button', id={'type':'del-db-btn', 'row':row[0], 'col':idx[0], 'table':table}), className='text-center')]
                 )
             for row in data['data'] ] + last_row
