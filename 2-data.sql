@@ -147,7 +147,7 @@ INSERT INTO `users` VALUES
 (5  , 'paul'    , TO_BASE64('paul')    , 'Cancer'  , 'Rouge' , 'paul.png' , '2024-04-08 07:48:08') ,
 (6  , 'bosh'    , TO_BASE64('bosh')    , 'bosh'    , 'Vert'  , 'bosh.png' , '2024-04-08 07:48:08') ,
 (7  , 'yohan'   , TO_BASE64('yohan')   , 'yohan'   , 'Bleu'  , 'yoyo.png' , '2024-04-08 07:48:08') ,
-(8  , 'lucas'   , TO_BASE64('lucas')   , 'lucas'   , 'Bleu'  , 'locas.png' , '2024-04-08 07:48:08') ,
+(8  , 'lucas'   , TO_BASE64('lucas')   , 'lucas'   , 'Bleu'  , 'lucas.png' , '2024-04-08 07:48:08') ,
 (9  , 'alois'   , TO_BASE64('alois')   , 'alois'   , 'Rouge' , 'alois.png' , '2024-04-08 07:48:08') ,
 (10 , 'dodo'    , TO_BASE64('dodo')    , 'dodo'    , 'Vert'  , 'dorian.png' , '2024-04-08 07:48:08') ,
 (11 , 'fuf'     , TO_BASE64('fuf')     , 'fuf'     , 'Bleu'  , 'fuf.png' , '2024-04-08 07:48:08') ,
