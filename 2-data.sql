@@ -139,40 +139,42 @@ UNLOCK TABLES;
 -- Dumping data for table `users`
 --
 
+
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES
 (4  , 'admin'   , '123'                , NULL      , NULL    , NULL   , '2024-03-29 19:53:07') ,
-(5  , 'paul'    , TO_BASE64('paul')    , 'Cancer'  , 'Rouge' , 'None' , '2024-04-08 07:48:08') ,
-(6  , 'bosh'    , TO_BASE64('bosh')    , 'bosh'    , 'Vert'  , 'None' , '2024-04-08 07:48:08') ,
-(7  , 'yohan'   , TO_BASE64('yohan')   , 'yohan'   , 'Bleu'  , 'None' , '2024-04-08 07:48:08') ,
-(8  , 'lucas'   , TO_BASE64('lucas')   , 'lucas'   , 'Bleu'  , 'None' , '2024-04-08 07:48:08') ,
-(9  , 'alois'   , TO_BASE64('alois')   , 'alois'   , 'Rouge' , 'None' , '2024-04-08 07:48:08') ,
-(10 , 'dodo'    , TO_BASE64('dodo')    , 'dodo'    , 'Vert'  , 'None' , '2024-04-08 07:48:08') ,
-(11 , 'fuf'     , TO_BASE64('fuf')     , 'fuf'     , 'Bleu'  , 'None' , '2024-04-08 07:48:08') ,
-(12 , 'léo'     , TO_BASE64('léo')     , 'léo'     , 'Rouge' , 'None' , '2024-04-08 07:48:08') ,
-(13 , 'maria'   , TO_BASE64('maria')   , 'maria'   , 'Bleu'  , 'None' , '2024-04-08 07:48:08') ,
-(14 , 'mimole'  , TO_BASE64('mimole')  , 'mimole'  , 'Bleu'  , 'None' , '2024-04-08 07:48:08') ,
-(15 , 'francis' , TO_BASE64('francis') , 'francis' , 'Vert'  , 'None' , '2024-04-08 07:48:08') ,
-(16 , 'glenn'   , TO_BASE64('glenn')   , 'glenn'   , 'Rouge' , 'None' , '2024-04-08 07:48:08') ,
-(17 , 'sn'      , TO_BASE64('sn')      , 'sn'      , 'Rouge' , 'None' , '2024-04-08 07:48:08') ,
-(18 , 'solène'  , TO_BASE64('solène')  , 'solène'  , 'Vert'  , 'None' , '2024-04-08 07:48:08') ,
-(19 , 'claire'  , TO_BASE64('claire')  , 'claire'  , 'Bleu'  , 'None' , '2024-04-08 07:48:08') ,
-(21 , 'dj'      , TO_BASE64('dj')      , 'dj'      , 'Vert'  , 'None' , '2024-04-08 07:48:08') ,
-(22 , 'captain' , TO_BASE64('captain') , 'captain' , 'Bleu'  , 'None' , '2024-04-08 07:48:08') ,
-(23 , 'greg'    , TO_BASE64('greg')    , 'greg'    , 'Vert'  , 'None' , '2024-04-08 07:48:08') ,
-(24 , 'camille' , TO_BASE64('camille') , 'camille' , 'Rouge' , 'None' , '2024-04-08 07:48:08') ,
-(25 , 'al'      , TO_BASE64('al')      , 'al'      , 'Vert'  , 'None' , '2024-04-08 07:48:08') ,
-(26 , 'sas'     , TO_BASE64('sas')     , 'sas'     , 'Rouge' , 'None' , '2024-04-08 07:48:08') ,
-(27 , 'nathan'  , TO_BASE64('nathan')  , 'nathan'  , 'Vert'  , 'None' , '2024-04-08 07:48:08') ,
-(28 , 'sarah'   , TO_BASE64('sarah')   , 'sarah'   , 'Bleu'  , 'None' , '2024-04-08 07:48:08') ,
-(29 , 'manon'   , TO_BASE64('manon')   , 'manon'   , 'Vert'  , 'None' , '2024-04-08 07:48:08') ,
-(30 , 'justin'  , TO_BASE64('justin')  , 'justin'  , 'Rouge' , 'None' , '2024-04-08 07:48:08') ,
-(31 , 'damien'  , TO_BASE64('damien')  , 'damien'  , 'Rouge' , 'None' , '2024-04-08 07:48:08') ,
-(32 , 'hugo'    , TO_BASE64('hugo')    , 'hugo'    , 'Bleu'  , 'None' , '2024-04-08 07:48:08') ;
+(5  , 'paul'    , TO_BASE64('paul')    , 'Cancer'  , 'Rouge' , 'paul.png' , '2024-04-08 07:48:08') ,
+(6  , 'bosh'    , TO_BASE64('bosh')    , 'bosh'    , 'Vert'  , 'bosh.png' , '2024-04-08 07:48:08') ,
+(7  , 'yohan'   , TO_BASE64('yohan')   , 'yohan'   , 'Bleu'  , 'yoyo.png' , '2024-04-08 07:48:08') ,
+(8  , 'lucas'   , TO_BASE64('lucas')   , 'lucas'   , 'Bleu'  , 'locas.png' , '2024-04-08 07:48:08') ,
+(9  , 'alois'   , TO_BASE64('alois')   , 'alois'   , 'Rouge' , 'alois.png' , '2024-04-08 07:48:08') ,
+(10 , 'dodo'    , TO_BASE64('dodo')    , 'dodo'    , 'Vert'  , 'dorian.png' , '2024-04-08 07:48:08') ,
+(11 , 'fuf'     , TO_BASE64('fuf')     , 'fuf'     , 'Bleu'  , 'fuf.png' , '2024-04-08 07:48:08') ,
+(12 , 'léo'     , TO_BASE64('léo')     , 'léo'     , 'Rouge' , 'leo.png' , '2024-04-08 07:48:08') ,
+(13 , 'maria'   , TO_BASE64('maria')   , 'maria'   , 'Bleu'  , 'maria.png' , '2024-04-08 07:48:08') ,
+(14 , 'mimole'  , TO_BASE64('mimole')  , 'mimole'  , 'Bleu'  , 'mimole.png' , '2024-04-08 07:48:08') ,
+(15 , 'francis' , TO_BASE64('francis') , 'francis' , 'Vert'  , 'maele.png' , '2024-04-08 07:48:08') ,
+(16 , 'glenn'   , TO_BASE64('glenn')   , 'glenn'   , 'Rouge' , 'glenn.png' , '2024-04-08 07:48:08') ,
+(17 , 'sn'      , TO_BASE64('sn')      , 'sn'      , 'Rouge' , 'sn.png' , '2024-04-08 07:48:08') ,
+(18 , 'solène'  , TO_BASE64('solène')  , 'solène'  , 'Vert'  , 'soso.png' , '2024-04-08 07:48:08') ,
+(19 , 'claire'  , TO_BASE64('claire')  , 'claire'  , 'Bleu'  , 'poups.png' , '2024-04-08 07:48:08') ,
+(21 , 'dj'      , TO_BASE64('dj')      , 'dj'      , 'Vert'  , 'didjo.png' , '2024-04-08 07:48:08') ,
+(22 , 'captain' , TO_BASE64('captain') , 'captain' , 'Bleu'  , 'captain.png' , '2024-04-08 07:48:08') ,
+(23 , 'greg'    , TO_BASE64('greg')    , 'greg'    , 'Vert'  , 'greg.png' , '2024-04-08 07:48:08') ,
+(24 , 'camille' , TO_BASE64('camille') , 'camille' , 'Rouge' , 'camille.png' , '2024-04-08 07:48:08') ,
+(25 , 'al'      , TO_BASE64('al')      , 'al'      , 'Vert'  , 'alicia.png' , '2024-04-08 07:48:08') ,
+(26 , 'sas'     , TO_BASE64('sas')     , 'sas'     , 'Rouge' , 'sas.png' , '2024-04-08 07:48:08') ,
+(27 , 'nathan'  , TO_BASE64('nathan')  , 'nathan'  , 'Vert'  , 'nath.png' , '2024-04-08 07:48:08') ,
+(28 , 'sarah'   , TO_BASE64('sarah')   , 'sarah'   , 'Bleu'  , 'sarha.png' , '2024-04-08 07:48:08') ,
+(29 , 'manon'   , TO_BASE64('manon')   , 'manon'   , 'Vert'  , 'manon.png' , '2024-04-08 07:48:08') ,
+(30 , 'justin'  , TO_BASE64('justin')  , 'justin'  , 'Rouge' , 'justin.png' , '2024-04-08 07:48:08') ,
+(31 , 'damien'  , TO_BASE64('damien')  , 'damien'  , 'Rouge' , 'damien.png' , '2024-04-08 07:48:08') ,
+(32 , 'hugo'    , TO_BASE64('hugo')    , 'hugo'    , 'Bleu'  , 'hugo.png' , '2024-04-08 07:48:08') ;
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

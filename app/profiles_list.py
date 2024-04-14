@@ -1,6 +1,7 @@
 #! /usr/bin/python3
 from sql import *
 import pandas as pd
+import os
 
 AVATAR_DIR = "assets/avatars/"
 
@@ -66,6 +67,11 @@ def get_profile(user):
     res.update(calenbours)
     return res
 
+def get_avatar_list():
+    # avatar_list = [f for f in os.listdir() if (os.path.isfile(f) and f.endswith(".png"))]
+    avatar_list = [f for f in os.listdir("assets/avatars") if f.endswith(".png")]
+    return avatar_list
+
 def get_avatar(user):
     # Make SQL request
     cols = ["avatar_name"]
@@ -81,9 +87,18 @@ def get_avatar(user):
     if df_avatar.shape[0] == 0 or df_avatar.avatar_name.iloc[0] is None:
         # return default avatar
         return "assets/logo.png"
+    
+    avatar_name = df_avatar.avatar_name.iloc[0]
+    
+    # get list of avatar names present in assests
+    avatar_list = get_avatar_list()
+    # if image not present in assests
+    if not avatar_name in avatar_list:
+        # return default avatar
+        return "assets/logo.png"
 
     # make avatar path
-    avatar_path = AVATAR_DIR + df_avatar.avatar_name.iloc[0]
+    avatar_path = AVATAR_DIR + avatar_name
     return avatar_path
 
 def set_display_name(user, name):
