@@ -28,12 +28,13 @@ def make_team_table(nothing):
     for team in all_teams:
         # données de l'équipe
         df_inte = df_teams[df_teams.team == team].copy()
-        users = df_inte.display_name.to_numpy()
+        users   = df_inte.display_name.to_numpy()
+        avatar  = df_inte.avatar_name.to_numpy()
 
         # tableau html
-        color = get_team_color(team)
-        header = [html.Thead(html.Tr([html.Th(team)]))]
-        body = [html.Tbody([html.Tr([html.Td(user)]) for user in users])]
+        color  = get_team_color(team)
+        header = [html.Thead(html.Tr([html.Th(team), html.Th('')]))]
+        body   = [html.Tbody([html.Tr([html.Td(user), html.Td(html.Img(src=f"assets/avatars/{av}", className='w-50'), className='d-flex justify-content-center')]) for user, av in zip(users, avatar)])]
 
         table = dbc.Table(header + body, id=f"team_table-{team}", color=color, bordered=True)
         team_components.append(table)

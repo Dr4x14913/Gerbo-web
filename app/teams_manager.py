@@ -19,7 +19,7 @@ def get_team_color(team_str):
 
 def get_all_teams():
     # Make SQL request
-    cols = ["team", "display_name"]
+    cols = ["team", "display_name", "avatar_name"]
     sql_cols = ", ".join(cols)
     req = f"select {sql_cols} from users WHERE username <> 'admin';"
 
