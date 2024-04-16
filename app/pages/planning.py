@@ -88,7 +88,6 @@ def get_meals(day):
     menus = []
     for time, menu, orga in get_menus(day):
         color = "primary" if orga == "" else get_team_color(orga)[0][0]
-        print(color, flush=True)
         menus.append(
             html.Tr([
                 html.Td(dbc.Badge(time, color="info")),
