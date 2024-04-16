@@ -4,6 +4,7 @@ from dash import html, dcc, callback, Input, Output, State, ALL
 from dash.exceptions import PreventUpdate
 from backoffice_manager import get_disabled_pages, log
 from planning_manager import get_activities, get_days, get_menus
+from teams_manager import get_team_color
 #------------------------------------------------------------------------------------
 dash.register_page(__name__)
 
@@ -86,11 +87,13 @@ def get_schedule(day):
 def get_meals(day):
     menus = []
     for time, menu, orga in get_menus(day):
+        color = "primary" if orga == "" else get_team_color(orga)[0][0]
+        print(color, flush=True)
         menus.append(
             html.Tr([
                 html.Td(dbc.Badge(time, color="info")),
                 html.Td(menu),
-                dbc.Badge(orga, color="danger", pill=True, className="position-absolute top-0 start-100 translate-middle")
+                dbc.Badge(orga, color=color, pill=True, className="position-absolute top-0 start-100 translate-middle")
             ], className="position-relative")
         )
 
