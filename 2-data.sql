@@ -23,9 +23,7 @@ LOCK TABLES `disabled_pages` WRITE;
 /*!40000 ALTER TABLE `disabled_pages` DISABLE KEYS */;
 INSERT INTO `disabled_pages` VALUES
 ('Game'),
-('Planning'),
-('Pronos'),
-('Teams');
+('Pronos');
 /*!40000 ALTER TABLE `disabled_pages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -38,11 +36,11 @@ LOCK TABLES `menus` WRITE;
 INSERT INTO `menus` VALUES
 (1 , 'Mercredi' , 'Soir' , 'Chacun sa merde'        , '')      ,
 (2 , 'Jeudi'    , 'Midi' , 'No sé'                  , '')      ,
-(3 , 'Jeudi'    , 'Soir' , "Menu de l'équipe Rouge" , 'Rouge') ,
+(3 , 'Jeudi'    , 'Soir' , "Menu de l'équipe Orange" , 'Orange') ,
 (4 , 'Vendredi' , 'Midi' , 'No sé'                  , '')      ,
 (5 , 'Vendredi' , 'Soir' , "Menu de l'équipe Verte" , 'Vert')  ,
 (6 , 'Samedi'   , 'Midi' , 'No sé'                  , '')      ,
-(7 , 'Samedi'   , 'Soir' , "Menu de l'équipe Bleue" , 'Bleu')  ;
+(7 , 'Samedi'   , 'Soir' , "Menu de l'équipe Rose" , 'Rose')  ;
 
 /*!40000 ALTER TABLE `menus` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -115,7 +113,7 @@ INSERT INTO `schedule` VALUES
 (3 , 'Jeudi'    , '14:00'          , 'Jeu de piste par équipe') ,
 (5 , 'Jeudi'    , '20:30'          , 'Mini jeux') ,
 (6 , 'Vendredi' , '14:00'          , 'Activitée au choix (paintball | OGliss | OFun)')                   ,
-(7 , 'Vendredi' , '21:00'          , 'Soirée théme <theme>, venez préparés !')                   ,
+(7 , 'Vendredi' , '21:00'          , 'Soirée théme Jungle, venez préparé !')                   ,
 (8 , 'Samedi'   , '14:00'          , 'Plage'),
 (9 , 'Samedi'   , '20:00'          , 'Jeux inventés par les équipes'),
 (10, 'Dimanche' , '08:00'          , 'Rangement');
@@ -129,9 +127,9 @@ UNLOCK TABLES;
 LOCK TABLES `teams` WRITE;
 /*!40000 ALTER TABLE `teams` DISABLE KEYS */;
 INSERT INTO `teams` VALUES
-(3,'Rouge','danger','2024-03-15 21:04:52'),
+(3,'Orange','danger','2024-03-15 21:04:52'),
 (4,'Vert','success','2024-03-15 21:04:59'),
-(5,'Bleu','primary','2024-04-08 07:47:04');
+(5,'Rose','primary','2024-04-08 07:47:04');
 /*!40000 ALTER TABLE `teams` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -143,34 +141,34 @@ UNLOCK TABLES;
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES
-(4  , 'admin'   , '123'                , NULL      , NULL    , NULL   , '2024-03-29 19:53:07') ,
-(5  , 'paul'    , TO_BASE64('paul')    , 'Vin rouge porte'  , 'Rouge' , 'paul.png' , '2024-04-08 07:48:08') ,
+(4  , 'admin'   , 'hehehe'                , NULL      , NULL    , NULL   , '2024-03-29 19:53:07') ,
+(5  , 'paul'    , TO_BASE64('paul')    , 'Vin rouge porte'  , 'Orange' , 'paul.png' , '2024-04-08 07:48:08') ,
 (6  , 'bosh'    , TO_BASE64('bosh')    , 'Dodo buisson'    , 'Vert'  , 'bosh.png' , '2024-04-08 07:48:08') ,
-(7  , 'yohan'   , TO_BASE64('yohan')   , 'Mr. Jul'   , 'Bleu'  , 'yoyo.png' , '2024-04-08 07:48:08') ,
-(8  , 'lucas'   , TO_BASE64('lucas')   , 'Rond point'   , 'Bleu'  , 'lucas.png' , '2024-04-08 07:48:08') ,
-(9  , 'alois'   , TO_BASE64('alois')   , 'Le gros geekos'   , 'Rouge' , 'alois.png' , '2024-04-08 07:48:08') ,
+(7  , 'yohan'   , TO_BASE64('yohan')   , 'Mr. Jul'   , 'Rose'  , 'yoyo.png' , '2024-04-08 07:48:08') ,
+(8  , 'lucas'   , TO_BASE64('lucas')   , 'Rond point'   , 'Rose'  , 'lucas.png' , '2024-04-08 07:48:08') ,
+(9  , 'alois'   , TO_BASE64('alois')   , 'Le gros geekos'   , 'Orange' , 'alois.png' , '2024-04-08 07:48:08') ,
 (10 , 'dodo'    , TO_BASE64('dodo')    , 'Le tonton bof'    , 'Vert'  , 'dorian.png' , '2024-04-08 07:48:08') ,
-(11 , 'fuf'     , TO_BASE64('fuf')     , 'Best blowjob of Budapest'     , 'Bleu'  , 'fuf.png' , '2024-04-08 07:48:08') ,
-(12 , 'léo'     , TO_BASE64('léo')     , 'Vomi manège (et ça pue)'     , 'Rouge' , 'leo.png' , '2024-04-08 07:48:08') ,
-(13 , 'maria'   , TO_BASE64('maria')   , 'Andromède'   , 'Bleu'  , 'maria.png' , '2024-04-08 07:48:08') ,
-(14 , 'mimole'  , TO_BASE64('mimole')  , 'Lundi dernier'  , 'Bleu'  , 'mimole.png' , '2024-04-08 07:48:08') ,
+(11 , 'fuf'     , TO_BASE64('fuf')     , 'Best blowjob of Budapest'     , 'Rose'  , 'fuf.png' , '2024-04-08 07:48:08') ,
+(12 , 'léo'     , TO_BASE64('léo')     , 'Vomi manège (et ça pue)'     , 'Orange' , 'leo.png' , '2024-04-08 07:48:08') ,
+(13 , 'maria'   , TO_BASE64('maria')   , 'Andromède'   , 'Rose'  , 'maria.png' , '2024-04-08 07:48:08') ,
+(14 , 'mimole'  , TO_BASE64('mimole')  , 'Lundi dernier'  , 'Rose'  , 'mimole.png' , '2024-04-08 07:48:08') ,
 (15 , 'francis' , TO_BASE64('francis') , 'Téma la taille du rat' , 'Vert'  , 'maele.png' , '2024-04-08 07:48:08') ,
-(16 , 'glenn'   , TO_BASE64('glenn')   , 'Le curé'   , 'Rouge' , 'glenn.png' , '2024-04-08 07:48:08') ,
-(17 , 'sn'      , TO_BASE64('sn')      , 'Pleins de petits cailloux'      , 'Rouge' , 'sn.png' , '2024-04-08 07:48:08') ,
+(16 , 'glenn'   , TO_BASE64('glenn')   , 'Le curé'   , 'Orange' , 'glenn.png' , '2024-04-08 07:48:08') ,
+(17 , 'sn'      , TO_BASE64('sn')      , 'Pleins de petits cailloux'      , 'Orange' , 'sn.png' , '2024-04-08 07:48:08') ,
 (18 , 'solène'  , TO_BASE64('solène')  , 'Pas de jean sur le lit'  , 'Vert'  , 'soso.png' , '2024-04-08 07:48:08') ,
-(19 , 'claire'  , TO_BASE64('claire')  , 'Poups2000'  , 'Bleu'  , 'poups.png' , '2024-04-08 07:48:08') ,
+(19 , 'claire'  , TO_BASE64('claire')  , 'Poups2000'  , 'Rose'  , 'poups.png' , '2024-04-08 07:48:08') ,
 (21 , 'dj'      , TO_BASE64('dj')      , 'Le vitrier raciste'      , 'Vert'  , 'didjo.png' , '2024-04-08 07:48:08') ,
-(22 , 'captain' , TO_BASE64('captain') , "Simooooooooon T'AS PEUR" , 'Bleu'  , 'captain.png' , '2024-04-08 07:48:08') ,
+(22 , 'captain' , TO_BASE64('captain') , "Simooooooooon T'AS PEUR" , 'Rose'  , 'captain.png' , '2024-04-08 07:48:08') ,
 (23 , 'greg'    , TO_BASE64('greg')    , "L'électricien"    , 'Vert'  , 'greg.png' , '2024-04-08 07:48:08') ,
-(24 , 'camille' , TO_BASE64('camille') , 'MAIS NON ?!?! *frappe cuisse*' , 'Rouge' , 'camille.png' , '2024-04-08 07:48:08') ,
+(24 , 'camille' , TO_BASE64('camille') , 'MAIS NON ?!?! *frappe cuisse*' , 'Orange' , 'camille.png' , '2024-04-08 07:48:08') ,
 (25 , 'al'      , TO_BASE64('al')      , 'Vomi terrasse'      , 'Vert'  , 'alicia.png' , '2024-04-08 07:48:08') ,
-(26 , 'sas'     , TO_BASE64('sas')     , 'PLS Boom Halloween (très tôt)'     , 'Rouge' , 'sas.png' , '2024-04-08 07:48:08') ,
+(26 , 'sas'     , TO_BASE64('sas')     , 'PLS Boom Halloween (très tôt)'     , 'Orange' , 'sas.png' , '2024-04-08 07:48:08') ,
 (27 , 'nathan'  , TO_BASE64('nathan')  , 'Caca UCPA'  , 'Vert'  , 'nath.png' , '2024-04-08 07:48:08') ,
-(28 , 'sarah'   , TO_BASE64('sarah')   , 'Lit rouge'   , 'Bleu'  , 'sarha.png' , '2024-04-08 07:48:08') ,
+(28 , 'sarah'   , TO_BASE64('sarah')   , 'Lit rouge'   , 'Rose'  , 'sarha.png' , '2024-04-08 07:48:08') ,
 (29 , 'manon'   , TO_BASE64('manon')   , 'Galette de boyaux sur beton armé'   , 'Vert'  , 'manon.png' , '2024-04-08 07:48:08') ,
-(30 , 'justin'  , TO_BASE64('justin')  , 'Baise salle de bain'  , 'Rouge' , 'justin.png' , '2024-04-08 07:48:08') ,
-(31 , 'damien'  , TO_BASE64('damien')  , 'Le sportif alcoolique'  , 'Rouge' , 'damien.png' , '2024-04-08 07:48:08') ,
-(32 , 'hugo'    , TO_BASE64('hugo')    , 'Papi'    , 'Bleu'  , 'hugo.png' , '2024-04-08 07:48:08') ;
+(30 , 'justin'  , TO_BASE64('justin')  , 'Baise salle de bain'  , 'Orange' , 'justin.png' , '2024-04-08 07:48:08') ,
+(31 , 'damien'  , TO_BASE64('damien')  , 'Le sportif alcoolique'  , 'Orange' , 'damien.png' , '2024-04-08 07:48:08') ,
+(32 , 'hugo'    , TO_BASE64('hugo')    , 'Papi'    , 'Rose'  , 'hugo.png' , '2024-04-08 07:48:08') ;
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

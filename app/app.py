@@ -18,7 +18,7 @@ print("Connection successful!")
 
 db.insert(f"""
     INSERT INTO users (username, password)
-    SELECT * FROM (SELECT 'admin' as username, '123zeub' as password) AS tmp
+    SELECT * FROM (SELECT 'admin' as username, '123' as password) AS tmp
     WHERE NOT EXISTS (
         SELECT username FROM users WHERE username = 'admin'
     ) LIMIT 1
