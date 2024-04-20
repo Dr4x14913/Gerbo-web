@@ -2,7 +2,7 @@ import dash
 from dash import html, dcc, callback, Input, Output, State, ALL, callback_context
 import dash_bootstrap_components as dbc
 from dash.exceptions import PreventUpdate
-from pronos_manager import get_pronos, get_choices, get_label, set_prono_res
+from pronos_manager import get_pronos, get_choices, get_label, set_prono_res, get_last_vote, get_prono_count
 from backoffice_manager import get_disabled_pages
 #------------------------------------------------------------------------------------
 dash.register_page(__name__)
@@ -32,17 +32,38 @@ def display_pronos(dummy, user):
     if str(__name__).split('.')[-1] in get_disabled_pages():
         return html.Div(['You are not allowed to be here, please go away before Didjo la canaille te botte le derch'])
 
-    res_div   = html.Div(id='pronos-res')
+    res_div   = []
     pronos_in = []
     for p in get_pronos():
-        label  = dbc.Label(f"Vote pour: {get_label(p)}")
-        select = dbc.Select(
-                id={'type':'pronos-in','prono':p},
-                options=[{"label": i, "value": i} for i in get_choices(p)]
-        )
-        btn    = dbc.Button("Send", id={'type':'pronos-btn-send', 'prono':p})
+        choices   = get_choices(p)
+        label     = dbc.Label(f"Vote pour: {get_label(p)}")
+        last_vote = get_last_vote(p, user)
+        if choices[0] == '*':
+            select = dbc.Input(id={'type':'pronos-in','prono':p}, placeholder=last_vote)
+        else:
+            select = dbc.Select(
+                    id={'type':'pronos-in','prono':p},
+                    options=[{"label": i, "value": i} for i in get_choices(p)],
+                    value = last_vote
+            )
+        btn    = dbc.Button("Send", id={'type':'pronos-btn-send', 'prono':p}, className='m-1')
         pronos_in.append(html.Div([label, select, btn]))
-    return pronos_in + [res_div]
+
+        votes = get_prono_count(p)
+        # res_div.append(
+        #     dcc.Graph(
+        #         figure={
+        #         'data': [
+        #             {'x': list(votes.keys()), 'y': list(votes.values()), 'type': 'bar', 'name': p},
+        #             ],
+        #         'layout': {
+        #             'title': get_label(p)
+        #             }
+        #         }
+        #     )
+        # )
+    pronos_in.extend(res_div)
+    return pronos_in
 #------------------------------------------------------------------------------------
 @callback(
     Output("pronos-res", "children"),
@@ -56,7 +77,6 @@ def set_prono(clicks, input_values, input_ids, user):
     button_id = ctx.triggered_id
     prono     = button_id['prono']
     value = input_values[[i['prono'].lower() for i in input_ids].index(prono.lower())]
-
     return set_prono_res(prono, user, value)
 
 

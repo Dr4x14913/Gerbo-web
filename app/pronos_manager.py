@@ -28,3 +28,28 @@ def set_prono_res(prono, user, res):
     except Exception as e: # W: Catching too general exception Exception
         return f"Error: {e}"
     return ""
+
+def get_last_vote(prono, user):
+    try:
+        db = Sql(MYSQL_DATABASE, DB_HOST='db', DB_USER=MYSQL_USER, DB_PASS=MYSQL_PASSWORD)
+        last_vote = db.select(f"SELECT vote FROM pronosResults WHERE username='{user}' AND prono_name = '{prono}' ORDER BY time DESC LIMIT 1")
+        db.close()
+    except Exception as e: # W: Catching too general exception Exception
+        return f"Error: {e}"
+    return last_vote[0][0]
+
+def get_prono_count(prono):
+    votes = {}
+    try:
+        db = Sql(MYSQL_DATABASE, DB_HOST='db', DB_USER=MYSQL_USER, DB_PASS=MYSQL_PASSWORD)
+        users_that_voted = db.select(f"SELECT username from pronosResults where prono_name='{prono}' group by username")
+        for user in users_that_voted:
+            vote = get_last_vote(prono, user[0])
+            if vote not in votes:
+                votes[vote] = 1
+            else:
+                votes[vote] += 1
+        db.close()
+    except Exception as e: # W: Catching too general exception Exception
+        return f"Error: {e}"
+    return votes
