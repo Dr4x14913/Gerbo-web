@@ -14,7 +14,7 @@ phantom_children = [
 
 
 layout = html.Div([
-    html.Div(phantom_children, id='pronos-content')
+    html.Div(phantom_children, id='pronos-content', style={'width':'100vw'}, className='px-1')
 ])
 
 
