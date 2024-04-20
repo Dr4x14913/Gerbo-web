@@ -32,7 +32,27 @@ def display_pronos(dummy, user):
     if str(__name__).split('.')[-1] in get_disabled_pages():
         return html.Div(['You are not allowed to be here, please go away before Didjo la canaille te botte le derch'])
 
-    res_div   = []
+    return gen_input_and_graphs(user)
+
+#------------------------------------------------------------------------------------
+@callback(
+    [Output("pronos-res", "children"), Output("pronos-content", "children", allow_duplicate=True)],
+    [Input({'type':'pronos-btn-send', 'prono':ALL}, "n_clicks")],
+    [State({'type':'pronos-in','prono':ALL}, "value"), State({'type':'pronos-in','prono':ALL}, "id"), State("CURRENT_USER", "data")],
+    prevent_initial_call = True
+)
+def set_prono(clicks, input_values, input_ids, user):
+    if all(i is None for i in clicks):
+        raise PreventUpdate
+    ctx       = callback_context
+    button_id = ctx.triggered_id
+    prono     = button_id['prono']
+    value = input_values[[i['prono'].lower() for i in input_ids].index(prono.lower())]
+    return set_prono_res(prono, user, value), gen_input_and_graphs(user)
+
+#------------------------------------------------------------------------------------
+def gen_input_and_graphs(user):
+    graphs    = []
     pronos_in = []
     for p in get_pronos():
         choices   = get_choices(p)
@@ -50,33 +70,16 @@ def display_pronos(dummy, user):
         pronos_in.append(html.Div([label, select, btn]))
 
         votes = get_prono_count(p)
-        # res_div.append(
-        #     dcc.Graph(
-        #         figure={
-        #         'data': [
-        #             {'x': list(votes.keys()), 'y': list(votes.values()), 'type': 'bar', 'name': p},
-        #             ],
-        #         'layout': {
-        #             'title': get_label(p)
-        #             }
-        #         }
-        #     )
-        # )
-    pronos_in.extend(res_div)
-    return pronos_in
-#------------------------------------------------------------------------------------
-@callback(
-    Output("pronos-res", "children"),
-    [Input({'type':'pronos-btn-send', 'prono':ALL}, "n_clicks")],
-    [State({'type':'pronos-in','prono':ALL}, "value"), State({'type':'pronos-in','prono':ALL}, "id"), State("CURRENT_USER", "data")]
-)
-def set_prono(clicks, input_values, input_ids, user):
-    if all(i is None for i in clicks):
-        raise PreventUpdate
-    ctx       = callback_context
-    button_id = ctx.triggered_id
-    prono     = button_id['prono']
-    value = input_values[[i['prono'].lower() for i in input_ids].index(prono.lower())]
-    return set_prono_res(prono, user, value)
-
-
+        graphs.append(
+            dcc.Graph(
+                figure={
+                'data': [
+                    {'x': list(votes.keys()), 'y': list(votes.values()), 'type': 'bar', 'name': p},
+                    ],
+                'layout': {
+                    'title': get_label(p)
+                    }
+                }, className='my-1'
+            )
+        )
+    return html.Div(pronos_in + graphs + [html.Div(id='pronos-res')])

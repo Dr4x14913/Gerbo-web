@@ -36,6 +36,8 @@ def get_last_vote(prono, user):
         db.close()
     except Exception as e: # W: Catching too general exception Exception
         return f"Error: {e}"
+    if len(last_vote) == 0:
+        return "None"
     return last_vote[0][0]
 
 def get_prono_count(prono):
