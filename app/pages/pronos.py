@@ -1,6 +1,7 @@
 import dash
 from dash import html, dcc, callback, Input, Output, State, ALL, callback_context
 import dash_bootstrap_components as dbc
+import plotly.graph_objects as go
 from dash.exceptions import PreventUpdate
 from pronos_manager import get_pronos, get_choices, get_label, set_prono_res, get_last_vote, get_prono_count
 from backoffice_manager import get_disabled_pages
@@ -72,14 +73,17 @@ def gen_input_and_graphs(user):
         votes = get_prono_count(p)
         graphs.append(
             dcc.Graph(
-                figure={
-                'data': [
-                    {'x': list(votes.keys()), 'y': list(votes.values()), 'type': 'bar', 'name': p},
-                    ],
-                'layout': {
-                    'title': get_label(p)
-                    }
-                }, className='my-1'
+                figure= go.Figure(
+                    data=go.Bar(
+                    x = list(votes.keys()),
+                    y = list(votes.values()),
+                    ),
+                    layout = dict(
+                        title = get_label(p),
+                        template ='plotly_dark'
+                    ),
+                ),
+                className='my-1', style={'borderRadius': '15px', 'overflow': 'hidden'}
             )
         )
     return html.Div(pronos_in + graphs + [html.Div(id='pronos-res')])

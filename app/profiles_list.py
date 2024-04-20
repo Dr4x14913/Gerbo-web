@@ -7,15 +7,17 @@ AVATAR_DIR = "assets/avatars/"
 
 profiles = {
     "maria": {
-        "État": "déstructurée",
-        "Localisation": "le plan d'eau"
+        "Nombre de win à la chèvre": "No data",
+        "Localisation": "BNS3",
+        "Etat": "Boude"
     },
     "fufu": {
         "État": "Nu",
         "État des fesses": "Va chercher du pq putain"
     },
     "glenn": {
-        "État du curé": "Venère dorènavant le fessier du Saint Glenn"
+        "État du curé": "Venère dorènavant le fessier du Saint Glenn comme le ptit Jésus",
+        "Localisation": "La fontaine de Montaigu",
     },
     "francis": {
         "État de la pinte": "Pleine comme une pute",
@@ -32,13 +34,24 @@ profiles = {
         "Levier de vitesse":"Gravier"
     },
     "captain":{
-        "État":"Héhéhé"
+        "État":"Héhéhé",
+        "Nombre de sacs de course": "215641654684351684981534687364894343986985416",
+        "Moyen de transport": "Caddie",
     },
-    "didjo":{
+    "dj":{
         "Localisation": "Rue St-Michel",
         "État de la main": "Brisée",
         "État de la vitre": "Intacte"
-    }
+    },
+    "paul":{
+        "Etat de ma gamelle": "Vide tocard t'as tout bu",
+        "Sosie officiel": "Hugo la calvasse",
+    },
+    "greg":{
+        "Allo ?": "Salut, c'est greg",
+        "Etat": "Toujours poursuivi par les avocats de l'INSA",
+        "La caution": "Disparue",
+    },
 }
 
 def get_profile(user):
@@ -87,9 +100,9 @@ def get_avatar(user):
     if df_avatar.shape[0] == 0 or df_avatar.avatar_name.iloc[0] is None:
         # return default avatar
         return "assets/logo.png"
-    
+
     avatar_name = df_avatar.avatar_name.iloc[0]
-    
+
     # get list of avatar names present in assests
     avatar_list = get_avatar_list()
     # if image not present in assests
