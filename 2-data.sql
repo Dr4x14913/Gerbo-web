@@ -142,7 +142,7 @@ LOCK TABLES `users` WRITE;
 INSERT INTO `users` VALUES
 (4  , 'admin'   , 'hehehe'                , NULL      , NULL    , NULL   , '2024-03-29 19:53:07') ,
 (5  , 'paul'    , TO_BASE64('paul')    , 'Vin rouge porte'  , 'Orange' , 'paul.png' , '2024-04-08 07:48:08') ,
-(6  , 'bosh'    , TO_BASE64('bosh')    , 'Dodo buisson'    , 'Vert'  , 'bosh.png' , '2024-04-08 07:48:08') ,
+(6  , 'bosch'    , TO_BASE64('bosh')    , 'Dodo buisson'    , 'Vert'  , 'bosh.png' , '2024-04-08 07:48:08') ,
 (7  , 'yohan'   , TO_BASE64('yohan')   , 'Mr. Jul'   , 'Rose'  , 'yoyo.png' , '2024-04-08 07:48:08') ,
 (8  , 'lucas'   , TO_BASE64('lucas')   , 'Rond point'   , 'Rose'  , 'lucas.png' , '2024-04-08 07:48:08') ,
 (9  , 'alois'   , TO_BASE64('alois')   , 'Le gros geekos'   , 'Orange' , 'alois.png' , '2024-04-08 07:48:08') ,
@@ -183,7 +183,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `pronos` WRITE;
 INSERT INTO `pronos` VALUES
-(0, 'gagnant', 'paul,bosh,yohan,lucas,alois,dodo,fuf,léo,maria,mimole,francis,glenn,sn,solène,claire,dj,captain,greg,camille,al,sas,nathan,sarah,manon,justin,damien,hugo', 'Grand gagnant de la Gerbouilette')
+(0, 'gagnant', 'paul,bosch,yohan,lucas,alois,dodo,fuf,léo,maria,mimole,francis,glenn,sn,solène,claire,dj,captain,greg,camille,al,sas,nathan,sarah,manon,justin,damien,hugo', 'Grand gagnant de la Gerbouilette')
 ;
 UNLOCK TABLES;
 -- Dump completed on 2024-04-08  7:52:09
