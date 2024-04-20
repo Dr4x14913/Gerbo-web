@@ -22,8 +22,7 @@
 LOCK TABLES `disabled_pages` WRITE;
 /*!40000 ALTER TABLE `disabled_pages` DISABLE KEYS */;
 INSERT INTO `disabled_pages` VALUES
-('Game'),
-('Pronos');
+('Game');
 /*!40000 ALTER TABLE `disabled_pages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -150,7 +149,7 @@ INSERT INTO `users` VALUES
 (10 , 'dodo'    , TO_BASE64('dodo')    , 'Le tonton bof'    , 'Vert'  , 'dorian.png' , '2024-04-08 07:48:08') ,
 (11 , 'fuf'     , TO_BASE64('fuf')     , 'Best blowjob of Budapest'     , 'Rose'  , 'fuf.png' , '2024-04-08 07:48:08') ,
 (12 , 'léo'     , TO_BASE64('léo')     , 'Vomi manège (et ça pue)'     , 'Orange' , 'leo.png' , '2024-04-08 07:48:08') ,
-(13 , 'maria'   , TO_BASE64('maria')   , 'Andromède'   , 'Rose'  , 'maria.png' , '2024-04-08 07:48:08') ,
+(13 , 'maria'   , TO_BASE64('maria')   , 'Scooby-Doo'   , 'Rose'  , 'maria.png' , '2024-04-08 07:48:08') ,
 (14 , 'mimole'  , TO_BASE64('mimole')  , 'Lundi dernier'  , 'Rose'  , 'mimole.png' , '2024-04-08 07:48:08') ,
 (15 , 'francis' , TO_BASE64('francis') , 'Téma la taille du rat' , 'Vert'  , 'maele.png' , '2024-04-08 07:48:08') ,
 (16 , 'glenn'   , TO_BASE64('glenn')   , 'Le curé'   , 'Orange' , 'glenn.png' , '2024-04-08 07:48:08') ,
@@ -166,7 +165,7 @@ INSERT INTO `users` VALUES
 (27 , 'nathan'  , TO_BASE64('nathan')  , 'Caca UCPA'  , 'Vert'  , 'nath.png' , '2024-04-08 07:48:08') ,
 (28 , 'sarah'   , TO_BASE64('sarah')   , 'Lit rouge'   , 'Rose'  , 'sarha.png' , '2024-04-08 07:48:08') ,
 (29 , 'manon'   , TO_BASE64('manon')   , 'Galette de boyaux sur beton armé'   , 'Vert'  , 'manon.png' , '2024-04-08 07:48:08') ,
-(30 , 'justin'  , TO_BASE64('justin')  , 'Baise salle de bain'  , 'Orange' , 'justin.png' , '2024-04-08 07:48:08') ,
+(30 , 'justin'  , TO_BASE64('justin')  , 'Lavabaise'  , 'Orange' , 'justin.png' , '2024-04-08 07:48:08') ,
 (31 , 'damien'  , TO_BASE64('damien')  , 'Le sportif alcoolique'  , 'Orange' , 'damien.png' , '2024-04-08 07:48:08') ,
 (32 , 'hugo'    , TO_BASE64('hugo')    , 'Papi'    , 'Rose'  , 'hugo.png' , '2024-04-08 07:48:08') ;
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
@@ -182,4 +181,9 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+LOCK TABLES `pronos` WRITE;
+INSERT INTO `pronos` VALUES
+(0, 'gagnant', 'paul,bosh,yohan,lucas,alois,dodo,fuf,léo,maria,mimole,francis,glenn,sn,solène,claire,dj,captain,greg,camille,al,sas,nathan,sarah,manon,justin,damien,hugo', 'Grand gagnant de la Gerbouilette')
+;
+UNLOCK TABLES;
 -- Dump completed on 2024-04-08  7:52:09
